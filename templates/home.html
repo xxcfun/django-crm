@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>首页--CRM客户管理信息系统</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote class="layui-elem-quote">
+    <a href="javascript:;">首页</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">数据一览</a>
+  </blockquote>
+  <hr class="layui-bg-green">
+
+  <!--排名情况-->
+  <div class="layui-card">
+    <div class="layui-card-body">
+      <div class="layui-row">
+        <div class="layui-col-md8">
+          <h3 style="padding-top: 10px; padding-bottom: 5px;">今日数据汇总</h3>
+          <table class="layui-table">
+            <colgroup>
+              <col>
+              <col>
+              <col>
+              <col>
+              <col>
+            </colgroup>
+            <thead>
+            <tr>
+              <th>姓名</th>
+              <th>新增客户</th>
+              <th>新增联系人</th>
+              <th>新增拜访记录</th>
+              <th>新增商机</th>
+            </tr>
+            </thead>
+            <tbody>
+{#            {% for count in counts %}#}
+            <tr>
+              <td>测试用户</td>
+              <td>1</td>
+              <td>2</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+{#            {% endfor %}#}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="layui-row">
+        <div class="layui-col-md8">
+          <h3 style="padding-top: 10px; padding-bottom: 5px;">本月数据汇总</h3>
+          <table class="layui-table">
+            <colgroup>
+              <col>
+              <col>
+              <col>
+              <col>
+              <col>
+            </colgroup>
+            <thead>
+            <tr>
+              <th>姓名</th>
+              <th>新增客户</th>
+              <th>新增联系人</th>
+              <th>新增拜访记录</th>
+              <th>新增商机</th>
+            </tr>
+            </thead>
+            <tbody>
+{#            {% for count in counts %}#}
+            <tr>
+              <td>测试用户</td>
+              <td>1</td>
+              <td>2</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+{#            {% endfor %}#}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="layui-row">
+        <div class="layui-col-md8">
+          <h3 style="padding-top: 10px; padding-bottom: 5px;">所有数据汇总</h3>
+          <table class="layui-table">
+            <colgroup>
+              <col>
+              <col>
+              <col>
+              <col>
+              <col>
+            </colgroup>
+            <thead>
+            <tr>
+              <th>姓名</th>
+              <th>新增客户</th>
+              <th>新增联系人</th>
+              <th>新增拜访记录</th>
+              <th>新增商机</th>
+            </tr>
+            </thead>
+            <tbody>
+{#            {% for count in counts %}#}
+            <tr>
+              <td>测试用户</td>
+              <td>1</td>
+              <td>2</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+{#            {% endfor %}#}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

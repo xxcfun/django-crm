@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  <title>个人中心</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote class="layui-elem-quote">
+    <a href="">用户</a>
+    &ensp;/&ensp;
+    <a href="">更改密码</a>
+  </blockquote>
+  <hr class="layui-bg-green">
+
+  <div class="layui-card">
+    <div class="layui-card-body">
+      <form class="layui-form" action="." method="post">
+    {% csrf_token %}
+    {% if message %}
+      <div class="alert alert-warning">{{ message }}</div>
+    {% endif %}
+    <div class="layui-form-item">
+      <label class="layui-form-label">用户名</label>
+      <div class="layui-input-block">
+        <input class="layui-input" disabled type="text" name="name" value="{{ user.name }}">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">职称</label>
+      <div class="layui-input-block">
+        <input class="layui-input" disabled type="text" name="role" value="{{ user.professional }}">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"><span style="color: red">* </span>修改密码</label>
+      <div class="layui-input-block">
+        <input class="layui-input" required type="password" name="editpwd" value="">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"><span style="color: red">* </span>确认密码</label>
+      <div class="layui-input-block">
+        <input class="layui-input" required type="password" name="checkpwd" value="">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button type="submit" class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+  </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <script>
+      //Demo
+      layui.use('form', function () {
+          var form = layui.form;
+      });
+  </script>
+{% endblock %}
