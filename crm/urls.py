@@ -26,5 +26,13 @@ urlpatterns = [
     # home首页
     path('home/', views.home, name='home'),
     # 用户模块
-    path('user/', include('users.urls'))
+    path('user/', include('users.urls')),
+    # 客户信息模块
+    path('customer/', include('customer.urls')),
+    # # 联系人信息模块
+    # path('liaison/', include('liaison.urls')),
+    # # 拜访记录模块
+    # path('record/', include('record.urls')),
+    # # 商机模块
+    # path('business/', include('business.urls')),
 ]

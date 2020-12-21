@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}
+  <title>添加客户信息</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote id="top" class="layui-elem-quote layui-quote-nm">
+    <a href="javascript:;">客户记录</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">添加新记录</a>
+  </blockquote>
+
+  <!--客户信息详情-->
+  <div class="layui-row">
+    <!--客户基本信息-->
+    <form class="layui-form layui-col-md6" action="." method="post">
+      <blockquote class="layui-elem-quote">客户基本信息</blockquote>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">* </span>客户名称</label>
+        <div class="layui-input-block">
+          <input type="text" name="name" required lay-verify="required"
+                 autocomplete="off" class="layui-input"
+                 value="{{ form.name.value|default_if_none:'' }}"
+                  >
+          {{ form.name.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">* </span>客户级别</label>
+        <div class="layui-input-block">
+          {{ form.rank }}
+          {{ form.rank.errors }}
+        </div>
+      </div>
+
+      <div class="layui-form"></div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">公司网址</label>
+        <div class="layui-input-block">
+          <input type="text" name="website"
+                 autocomplete="off" class="layui-input"
+                 value="{{ form.website.value|default_if_none:'' }}"
+                  >
+          {{ form.website.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">* </span>客户规模</label>
+        <div class="layui-input-block">
+          {{ form.scale }}
+          {{ form.scale.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">客户性质</label>
+        <div class="layui-input-block">
+          {{ form.nature }}
+          {{ form.nature.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">客户行业</label>
+        <div class="layui-input-block">
+          {{ form.industry }}
+          {{ form.industry.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+          <textarea name="remarks" class="layui-textarea" placeholder="请输入内容">{{ form.remarks.value|default_if_none:'' }}</textarea>
+          {{ form.remarks.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="formDemo" type="submit">提交更新</button>
+        </div>
+      </div>
+    </form>
+    <!--客户基本信息结束-->
+  </div>
+  <hr>
+  <!--客户信息详情结束-->
+{% endblock %}
+
+{% block footer %}
+  <script>
+      //JavaScript代码区域
+      layui.use(['element', 'form'], function () {
+          var element = layui.element
+              , form = layui.form;
+      });
+  </script>
+{% endblock %}

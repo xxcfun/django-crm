@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users'     # 用户模块
+    'users',        # 用户模块
+    'customer',     # 客户信息模块
+    'liaison',      # 联系人信息模块
+    'record',       # 拜访记录模块
+    'business',     # 商机模块
 ]
 
 MIDDLEWARE = [
