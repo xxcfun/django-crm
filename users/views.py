@@ -28,8 +28,8 @@ def login(request):
         login_form = forms.UserForm(request.POST)
         message = '请输入账号和密码！'
         if login_form.is_valid():
-            username = login_form.cleaned_data.get('username')
-            password = login_form.cleaned_data.get('password')
+            username = login_form.cleaned_data.get('username', None)
+            password = login_form.cleaned_data.get('password', None)
             try:
                 user = User.objects.get(name=username)
             except:

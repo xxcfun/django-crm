@@ -6,8 +6,6 @@ from customer.views import CustomerView
 urlpatterns = [
     # 查看客户
     path('', CustomerView.as_view(), name='customer'),
-    # 根据筛选用户查看客户
-    path('seach/', views.customer_seach, name='customer_seach'),
     # 添加客户
     path('add/', views.customer_add, name='customer_add'),
     # 查看和修改客户

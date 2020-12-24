@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>修改{{ form.name.value }}的信息</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote id="top" class="layui-elem-quote">
+    <a href="{% url 'customer' %}">客户</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">修改客户信息</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">{{ form.name.value }}</a>
+  </blockquote>
+
+  <hr class="layui-bg-green">
+
+  <!--客户详情-->
+  <div>
+    <form class="layui-form" action="{% url 'customer_edit' pk %}" method="post">
+      {% csrf_token %}
+      <div class="layui-row layui-col-space10">
+        <!--客户基本信息-->
+        <div class="layui-col-md6">
+          <blockquote class="layui-elem-quote layui-quote-nm">客户基本信息</blockquote>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red">* </span>客户名称</label>
+            <div class="layui-input-block">
+              <input type="text" name="name" required lay-verify="required"
+                     autocomplete="off" class="layui-input"
+                     value="{{ form.name.value|default_if_none:'' }}"
+              >
+              {{ form.name.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red">* </span>客户级别</label>
+            <div class="layui-input-block">
+              {{ form.rank }}
+              {{ form.rank.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">公司网址</label>
+            <div class="layui-input-block">
+              <input type="text" name="website"
+                     autocomplete="off" class="layui-input"
+                     value="{{ form.website.value|default_if_none:'' }}"
+              >
+              {{ form.website.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">客户规模</label>
+            <div class="layui-input-block">
+              {{ form.scale }}
+              {{ form.scale.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">客户性质</label>
+            <div class="layui-input-block">
+              {{ form.nature }}
+              {{ form.nature.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">客户行业</label>
+            <div class="layui-input-block">
+              {{ form.industry }}
+              {{ form.industry.errors }}
+            </div>
+          </div>
+          {# 隐藏的表单，用户字段 #}
+          <input type="hidden" name="user"
+                 autocomplete="off" class="layui-input"
+                 value="{{ request.session.user_id }}">
+          {# 隐藏的表单，用户字段 #}
+          <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注信息</label>
+            <div class="layui-input-block">
+              <textarea name="remarks" class="layui-textarea" rows="7"
+                        placeholder="请输入内容">{{ form.remarks.value|default_if_none:'' }}</textarea>
+              {{ form.remarks.errors }}
+            </div>
+          </div>
+        </div>
+        <!--客户基本信息结束-->
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" type="submit">提交更新</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+  <script src="/static/js/distpicker.js"></script>
+  <script>
+      //JavaScript代码区域
+      layui.use(['element', 'form'], function () {
+          var element = layui.element
+              , form = layui.form;
+
+          form.on('select(shop_province)', function (data) {
+              $("#shop_province").val(data.value).change();
+              form.render();
+          })
+
+          form.on('select(shop_city)', function (data) {
+              $("#shop_city").val(data.value).change();
+              form.render();
+          })
+
+          form.on('select(shop_area)', function (data) {
+              $("#shop_area").val(data.value).change();
+              form.render();
+          })
+
+          form.on('select(invoice_province)', function (data) {
+              $("#invoice_province").val(data.value).change();
+              form.render();
+          })
+
+          form.on('select(invoice_city)', function (data) {
+              $("#invoice_city").val(data.value).change();
+              form.render();
+          })
+
+          form.on('select(invoice_area)', function (data) {
+              $("#invoice_area").val(data.value).change();
+              form.render();
+          })
+      });
+  </script>
+{% endblock %}

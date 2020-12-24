@@ -1,0 +1,367 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>客户详情-{{ form.name.value }}</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote id="top" class="layui-elem-quote">
+    <a href="{% url 'customer' %}">客户</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">客户详情</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">{{ form.name.value }}</a>
+  </blockquote>
+
+  <hr class="layui-bg-green">
+
+  {#  <a class="layui-btn" href="#1">查看客户基本信息</a>#}
+  {#  <a class="layui-btn" href="#3">查看客户联系人</a>#}
+  {#  <a class="layui-btn" href="#4">查看客户拜访记录</a>#}
+  {#  <a class="layui-btn" href="#2">查看客户商机</a>#}
+  {#  <hr>#}
+  {#  <a class="layui-btn layui-btn-normal" href="{% url 'customer:customer_add' %}">添加新的客户信息</a>#}
+  {#  <a class="layui-btn layui-btn-normal" href="{% url 'liaison:liaison_add' cus_id %}">添加客户联系人</a>#}
+  {#  <a class="layui-btn layui-btn-normal" href="{% url 'record:record_add' cus_id %}">添加客户拜访记录</a>#}
+  {#  <a class="layui-btn layui-btn-normal" href="{% url 'business:business_add' cus_id %}">添加客户商机</a>#}
+  {#  <hr>#}
+
+  <!--客户详情-->
+  <div id="1">
+    <div class="layui-row layui-col-space10">
+      <!--客户基本信息-->
+      <div class="layui-col-md6">
+        <form class="layui-form" action="{% url 'customer_detail' pk %}" method="post">
+          {% csrf_token %}
+          <blockquote class="layui-elem-quote layui-quote-nm">客户基本信息</blockquote>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red">* </span>客户名称</label>
+            <div class="layui-input-block">
+              <input type="text" name="name" required lay-verify="required"
+                     autocomplete="off" class="layui-input"
+                     value="{{ form.name.value|default_if_none:'' }}"
+              >
+              {{ form.name.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red">* </span>客户级别</label>
+            <div class="layui-input-block">
+              {{ form.rank }}
+              {{ form.rank.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">公司网址</label>
+            <div class="layui-input-block">
+              <input type="text" name="website"
+                     autocomplete="off" class="layui-input"
+                     value="{{ form.website.value|default_if_none:'' }}"
+              >
+              {{ form.website.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">客户规模</label>
+            <div class="layui-input-block">
+              {{ form.scale }}
+              {{ form.scale.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">客户性质</label>
+            <div class="layui-input-block">
+              {{ form.nature }}
+              {{ form.nature.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">客户行业</label>
+            <div class="layui-input-block">
+              {{ form.industry }}
+              {{ form.industry.errors }}
+            </div>
+          </div>
+          {# 隐藏的表单，用户字段 #}
+          <input type="hidden" name="user"
+                 autocomplete="off" class="layui-input"
+                 value="{{ request.session.user_id }}">
+          {# 隐藏的表单，用户字段 #}
+          <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注信息</label>
+            <div class="layui-input-block">
+              <textarea name="remarks" class="layui-textarea" rows="7"
+                        placeholder="请输入内容">{{ form.remarks.value|default_if_none:'' }}</textarea>
+              {{ form.remarks.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button class="layui-btn" type="submit">提交更新</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--客户基本信息结束-->
+
+      <!--客户地址信息-->
+      <div class="layui-col-md6">
+        <!--收货地址-->
+        <blockquote class="layui-elem-quote layui-quote-nm">收货地址信息</blockquote>
+        <div class="layui-form-item">
+          <label class="layui-form-label">收货人</label>
+          <div class="layui-input-block">
+            <input type="text" name="shop_username"
+                   autocomplete="off" class="layui-input"
+                   value="{{ form.shop_username.value|default_if_none:'' }}"
+            >
+            {{ form.shop_username.errors }}
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">联系方式</label>
+          <div class="layui-input-block">
+            <input type="text" name="shop_phone"
+                   autocomplete="off" class="layui-input"
+                   value="{{ form.shop_phone.value|default_if_none:'' }}"
+            >
+            {{ form.shop_phone.errors }}
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">所在地区</label>
+          <div class="layui-input-block">
+            <div data-toggle="distpicker" style="display: flex">
+              <div class="form-group">
+                <select class="form-control" lay-filter="shop_province"
+                        data-province="{{ form.shop_province.value|default_if_none:'' }}"
+                        name="shop_province" id="shop_province"></select>
+              </div>
+              <div class="form-group">
+                <select class="form-control" lay-filter="shop_city"
+                        data-city="{{ form.shop_city.value|default_if_none:'' }}"
+                        name="shop_city" id="shop_city"></select>
+              </div>
+              <div class="form-group">
+                <select class="form-control" lay-filter="shop_area"
+                        data-district="{{ form.shop_area.value|default_if_none:'' }}"
+                        name="shop_area" id="shop_area"></select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">详细地址</label>
+          <div class="layui-input-block">
+            <input type="text" name="shop_address"
+                   autocomplete="off" class="layui-input"
+                   value="{{ form.shop_address.value|default_if_none:'' }}"
+            >
+            {{ form.shop_address.errors }}
+          </div>
+        </div>
+        <!--发票地址-->
+        <blockquote class="layui-elem-quote layui-quote-nm">发票地址信息</blockquote>
+        <div class="layui-form-item">
+          <label class="layui-form-label">收货人</label>
+          <div class="layui-input-block">
+            <input type="text" name="invoice_username"
+                   autocomplete="off" class="layui-input"
+                   value="{{ form.invoice_username.value|default_if_none:'' }}"
+            >
+            {{ form.invoice_username.errors }}
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">联系方式</label>
+          <div class="layui-input-block">
+            <input type="text" name="invoice_phone"
+                   autocomplete="off" class="layui-input"
+                   value="{{ form.invoice_phone.value|default_if_none:'' }}"
+            >
+            {{ form.invoice_phone.errors }}
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">所在地区</label>
+          <div class="layui-input-block">
+            <div data-toggle="distpicker" style="display: flex">
+              <div class="form-group">
+                <select class="form-control" lay-filter="invoice_province"
+                        data-province="{{ form.invoice_province.value|default_if_none:'' }}"
+                        name="invoice_province" id="invoice_province"></select>
+              </div>
+              <div class="form-group">
+                <select class="form-control" lay-filter="invoice_city"
+                        data-city="{{ form.invoice_city.value|default_if_none:'' }}"
+                        name="invoice_city" id="invoice_city"></select>
+              </div>
+              <div class="form-group">
+                <select class="form-control" lay-filter="invoice_area"
+                        data-district="{{ form.invoice_area.value|default_if_none:'' }}"
+                        name="invoice_area" id="invoice_area"></select>
+              </div>
+            </div>
+            {{ form.address.errors }}
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">详细地址</label>
+          <div class="layui-input-block">
+            <input type="text" name="invoice_address"
+                   autocomplete="off" class="layui-input"
+                   value="{{ form.invoice_address.value|default_if_none:'' }}"
+            >
+            {{ form.invoice_address.errors }}
+          </div>
+        </div>
+      </div>
+      <!--客户地址信息结束-->
+    </div>
+
+  </div>
+  <hr>
+  <!--客户详情结束-->
+
+  <!-- 联系人信息 -->
+  <div id="3" class="layui-row">
+    <blockquote class="layui-elem-quote">客户联系人信息</blockquote>
+    <table class="layui-table">
+      <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+      </colgroup>
+      <thead>
+      <tr>
+        <th>联系人姓名</th>
+        <th>联系方式</th>
+        <th>职位</th>
+        <th>是否在职</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for liaison in liaison_list %}
+        <tr>
+          <td>{{ liaison.name }}</td>
+          <td>{{ liaison.phone }}</td>
+          <td>{{ liaison.get_job_display }}</td>
+          <td>{{ liaison.get_injob_display }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <hr>
+  <!-- 联系人信息结束 -->
+
+  <!-- 客户拜访记录 -->
+  <div id="4" class="layui-row">
+    <blockquote class="layui-elem-quote">客户拜访记录</blockquote>
+    <table class="layui-table">
+      <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+      </colgroup>
+      <thead>
+      <tr>
+        <th>拜访时间</th>
+        <th>拜访方式</th>
+        <th>主要事宜</th>
+        <th>后续工作安排</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for record in record_list %}
+        <tr>
+          <td>{{ record.created_at|date:'Y年m月d日' }}</td>
+          <td>{{ record.status }}</td>
+          <td>{{ record.main|slice:":15" }}......</td>
+          <td>{{ record.next|slice:":15" }}......</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <hr>
+  <!-- 客户拜访记录结束 -->
+
+  <!-- 客户商机 -->
+  <div id="2" class="layui-row">
+    <blockquote class="layui-elem-quote">客户商机</blockquote>
+
+    <table class="layui-table">
+      <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+      </colgroup>
+      <thead>
+      <tr>
+        <th>商机名称</th>
+        <th>赢单率</th>
+        <th>预估金额（万元）</th>
+        <th>备注</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for business in businesse_list %}
+        <tr>
+          <td>{{ business.name }}</td>
+          <td>{{ business.get_winning_rate_display }}</td>
+          <td>{{ business.money }}</td>
+          <td>{{ business.remarks|default_if_none:'无信息' }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <hr>
+  <!-- 客户商机结束 -->
+{% endblock %}
+
+{% block footer %}
+  <script src="/static/js/jquery-2.1.4.js"></script>
+  <script src="/static/js/distpicker.js"></script>
+  <script>
+      //JavaScript代码区域
+      layui.use(['element', 'form'], function () {
+          var element = layui.element
+              , form = layui.form;
+
+          form.on('select(shop_province)', function (data) {
+              $("#shop_province").val(data.value).change();
+              form.render();
+          })
+
+          form.on('select(shop_city)', function (data) {
+              $("#shop_city").val(data.value).change();
+              form.render();
+          })
+
+          form.on('select(shop_area)', function (data) {
+              $("#shop_area").val(data.value).change();
+              form.render();
+          })
+
+          form.on('select(invoice_province)', function (data) {
+              $("#invoice_province").val(data.value).change();
+              form.render();
+          })
+
+          form.on('select(invoice_city)', function (data) {
+              $("#invoice_city").val(data.value).change();
+              form.render();
+          })
+
+          form.on('select(invoice_area)', function (data) {
+              $("#invoice_area").val(data.value).change();
+              form.render();
+          })
+      });
+  </script>
+{% endblock %}

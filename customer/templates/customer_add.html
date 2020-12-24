@@ -4,24 +4,26 @@
 {% endblock %}
 
 {% block container %}
-  <blockquote id="top" class="layui-elem-quote layui-quote-nm">
-    <a href="javascript:;">客户记录</a>
+  <blockquote id="top" class="layui-elem-quote">
+    <a href="{% url 'customer' %}">客户</a>
     &ensp;/&ensp;
-    <a href="javascript:;">添加新记录</a>
+    <a href="javascript:;">添加新客户</a>
   </blockquote>
+
+  <hr class="layui-bg-green">
 
   <!--客户信息详情-->
   <div class="layui-row">
     <!--客户基本信息-->
     <form class="layui-form layui-col-md6" action="." method="post">
-      <blockquote class="layui-elem-quote">客户基本信息</blockquote>
+      {% csrf_token %}
+      <blockquote class="layui-elem-quote layui-quote-nm">客户基本信息</blockquote>
       <div class="layui-form-item">
         <label class="layui-form-label"><span style="color: red">* </span>客户名称</label>
         <div class="layui-input-block">
-          <input type="text" name="name" required lay-verify="required"
-                 autocomplete="off" class="layui-input"
-                 value="{{ form.name.value|default_if_none:'' }}"
-                  >
+          <input type="text" name="name" required autocomplete="off"
+                 class="layui-input"
+                 value="{{ form.name.value|default_if_none:'' }}">
           {{ form.name.errors }}
         </div>
       </div>
@@ -32,21 +34,17 @@
           {{ form.rank.errors }}
         </div>
       </div>
-
-      <div class="layui-form"></div>
-
       <div class="layui-form-item">
         <label class="layui-form-label">公司网址</label>
         <div class="layui-input-block">
           <input type="text" name="website"
                  autocomplete="off" class="layui-input"
-                 value="{{ form.website.value|default_if_none:'' }}"
-                  >
+                 value="{{ form.website.value|default_if_none:'' }}">
           {{ form.website.errors }}
         </div>
       </div>
       <div class="layui-form-item">
-        <label class="layui-form-label"><span style="color: red">* </span>客户规模</label>
+        <label class="layui-form-label">客户规模</label>
         <div class="layui-input-block">
           {{ form.scale }}
           {{ form.scale.errors }}
@@ -66,6 +64,11 @@
           {{ form.industry.errors }}
         </div>
       </div>
+      {# 隐藏的表单，用户字段 #}
+      <input type="hidden" name="user"
+             autocomplete="off" class="layui-input"
+             value="{{ request.session.user_id }}">
+      {# 隐藏的表单，用户字段 #}
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">备注信息</label>
         <div class="layui-input-block">
@@ -75,7 +78,7 @@
       </div>
       <div class="layui-form-item">
         <div class="layui-input-block">
-          <button class="layui-btn" lay-submit lay-filter="formDemo" type="submit">提交更新</button>
+          <button class="layui-btn" type="submit">提交更新</button>
         </div>
       </div>
     </form>
