@@ -33,6 +33,6 @@ urlpatterns = [
     path('liaison/', include('liaison.urls')),
     # 拜访记录模块
     path('record/', include('record.urls')),
-    # # 商机模块
-    # path('business/', include('business.urls')),
+    # 商机模块
+    path('business/', include('business.urls')),
 ]
