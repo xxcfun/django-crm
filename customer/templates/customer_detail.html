@@ -107,114 +107,141 @@
       <!--客户地址信息-->
       <div class="layui-col-md6">
         <!--收货地址-->
-        <blockquote class="layui-elem-quote layui-quote-nm">收货地址信息</blockquote>
-        <div class="layui-form-item">
-          <label class="layui-form-label">收货人</label>
-          <div class="layui-input-block">
-            <input type="text" name="shop_username"
-                   autocomplete="off" class="layui-input"
-                   value="{{ form.shop_username.value|default_if_none:'' }}"
-            >
-            {{ form.shop_username.errors }}
+        <form class="layui-form" action="{% url 'address_shop' pk %}" method="post">
+          {% csrf_token %}
+          <blockquote class="layui-elem-quote layui-quote-nm">收货地址和发票地址信息</blockquote>
+          {# 隐藏的表单，客户名称外键字段 #}
+          <input type="hidden" name="customer"
+                 autocomplete="off" class="layui-input"
+                 value="{{ pk }}">
+          {# 隐藏的表单，客户名称外键字段 #}
+          <div class="layui-form-item">
+            <label class="layui-form-label">收货人</label>
+            <div class="layui-input-block">
+              <input type="text" name="shop_username"
+                     autocomplete="off" class="layui-input"
+                     value="{{ shopform.shop_username.value|default_if_none:'' }}"
+              >
+              {{ shopform.shop_username.errors }}
+            </div>
           </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">联系方式</label>
-          <div class="layui-input-block">
-            <input type="text" name="shop_phone"
-                   autocomplete="off" class="layui-input"
-                   value="{{ form.shop_phone.value|default_if_none:'' }}"
-            >
-            {{ form.shop_phone.errors }}
+          <div class="layui-form-item">
+            <label class="layui-form-label">联系方式</label>
+            <div class="layui-input-block">
+              <input type="text" name="shop_phone"
+                     autocomplete="off" class="layui-input"
+                     value="{{ shopform.shop_phone.value|default_if_none:'' }}"
+              >
+              {{ shopform.shop_phone.errors }}
+            </div>
           </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">所在地区</label>
-          <div class="layui-input-block">
-            <div data-toggle="distpicker" style="display: flex">
-              <div class="form-group">
-                <select class="form-control" lay-filter="shop_province"
-                        data-province="{{ form.shop_province.value|default_if_none:'' }}"
-                        name="shop_province" id="shop_province"></select>
-              </div>
-              <div class="form-group">
-                <select class="form-control" lay-filter="shop_city"
-                        data-city="{{ form.shop_city.value|default_if_none:'' }}"
-                        name="shop_city" id="shop_city"></select>
-              </div>
-              <div class="form-group">
-                <select class="form-control" lay-filter="shop_area"
-                        data-district="{{ form.shop_area.value|default_if_none:'' }}"
-                        name="shop_area" id="shop_area"></select>
+          <div class="layui-form-item">
+            <label class="layui-form-label">所在地区</label>
+            <div class="layui-input-block">
+              <div data-toggle="distpicker" style="display: flex">
+                <div class="form-group">
+                  <select class="form-control" lay-filter="shop_province"
+                          data-province="{{ shopform.shop_province.value|default_if_none:'' }}"
+                          name="shop_province" id="shop_province"></select>
+                </div>
+                <div class="form-group">
+                  <select class="form-control" lay-filter="shop_city"
+                          data-city="{{ shopform.shop_city.value|default_if_none:'' }}"
+                          name="shop_city" id="shop_city"></select>
+                </div>
+                <div class="form-group">
+                  <select class="form-control" lay-filter="shop_area"
+                          data-district="{{ shopform.shop_area.value|default_if_none:'' }}"
+                          name="shop_area" id="shop_area"></select>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">详细地址</label>
-          <div class="layui-input-block">
-            <input type="text" name="shop_address"
-                   autocomplete="off" class="layui-input"
-                   value="{{ form.shop_address.value|default_if_none:'' }}"
-            >
-            {{ form.shop_address.errors }}
+          <div class="layui-form-item">
+            <label class="layui-form-label">详细地址</label>
+            <div class="layui-input-block">
+              <input type="text" name="shop_address"
+                     autocomplete="off" class="layui-input"
+                     value="{{ shopform.shop_address.value|default_if_none:'' }}"
+              >
+              {{ shopform.shop_address.errors }}
+            </div>
           </div>
-        </div>
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button class="layui-btn" type="submit">保存地址信息</button>
+            </div>
+          </div>
+        </form>
+
         <!--发票地址-->
-        <blockquote class="layui-elem-quote layui-quote-nm">发票地址信息</blockquote>
-        <div class="layui-form-item">
-          <label class="layui-form-label">收货人</label>
-          <div class="layui-input-block">
-            <input type="text" name="invoice_username"
-                   autocomplete="off" class="layui-input"
-                   value="{{ form.invoice_username.value|default_if_none:'' }}"
-            >
-            {{ form.invoice_username.errors }}
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">联系方式</label>
-          <div class="layui-input-block">
-            <input type="text" name="invoice_phone"
-                   autocomplete="off" class="layui-input"
-                   value="{{ form.invoice_phone.value|default_if_none:'' }}"
-            >
-            {{ form.invoice_phone.errors }}
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">所在地区</label>
-          <div class="layui-input-block">
-            <div data-toggle="distpicker" style="display: flex">
-              <div class="form-group">
-                <select class="form-control" lay-filter="invoice_province"
-                        data-province="{{ form.invoice_province.value|default_if_none:'' }}"
-                        name="invoice_province" id="invoice_province"></select>
-              </div>
-              <div class="form-group">
-                <select class="form-control" lay-filter="invoice_city"
-                        data-city="{{ form.invoice_city.value|default_if_none:'' }}"
-                        name="invoice_city" id="invoice_city"></select>
-              </div>
-              <div class="form-group">
-                <select class="form-control" lay-filter="invoice_area"
-                        data-district="{{ form.invoice_area.value|default_if_none:'' }}"
-                        name="invoice_area" id="invoice_area"></select>
-              </div>
+        <form class="layui-form" action="{% url 'address_invoice' pk %}" method="post">
+          {% csrf_token %}
+{#          <blockquote class="layui-elem-quote layui-quote-nm">发票地址信息</blockquote>#}
+          {# 隐藏的表单，客户名称外键字段 #}
+          <input type="hidden" name="customer"
+                 autocomplete="off" class="layui-input"
+                 value="{{ pk }}">
+          {# 隐藏的表单，客户名称外键字段 #}
+          <div class="layui-form-item">
+            <label class="layui-form-label">收货人</label>
+            <div class="layui-input-block">
+              <input type="text" name="invoice_username"
+                     autocomplete="off" class="layui-input"
+                     value="{{ invoiceform.invoice_username.value|default_if_none:'' }}"
+              >
+              {{ invoiceform.invoice_username.errors }}
             </div>
-            {{ form.address.errors }}
           </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">详细地址</label>
-          <div class="layui-input-block">
-            <input type="text" name="invoice_address"
-                   autocomplete="off" class="layui-input"
-                   value="{{ form.invoice_address.value|default_if_none:'' }}"
-            >
-            {{ form.invoice_address.errors }}
+          <div class="layui-form-item">
+            <label class="layui-form-label">联系方式</label>
+            <div class="layui-input-block">
+              <input type="text" name="invoice_phone"
+                     autocomplete="off" class="layui-input"
+                     value="{{ invoiceform.invoice_phone.value|default_if_none:'' }}"
+              >
+              {{ invoiceform.invoice_phone.errors }}
+            </div>
           </div>
-        </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">所在地区</label>
+            <div class="layui-input-block">
+              <div data-toggle="distpicker" style="display: flex">
+                <div class="form-group">
+                  <select class="form-control" lay-filter="invoice_province"
+                          data-province="{{ invoiceform.invoice_province.value|default_if_none:'' }}"
+                          name="invoice_province" id="invoice_province"></select>
+                </div>
+                <div class="form-group">
+                  <select class="form-control" lay-filter="invoice_city"
+                          data-city="{{ invoiceform.invoice_city.value|default_if_none:'' }}"
+                          name="invoice_city" id="invoice_city"></select>
+                </div>
+                <div class="form-group">
+                  <select class="form-control" lay-filter="invoice_area"
+                          data-district="{{ invoiceform.invoice_area.value|default_if_none:'' }}"
+                          name="invoice_area" id="invoice_area"></select>
+                </div>
+              </div>
+              {{ invoiceform.address.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">详细地址</label>
+            <div class="layui-input-block">
+              <input type="text" name="invoice_address"
+                     autocomplete="off" class="layui-input"
+                     value="{{ invoiceform.invoice_address.value|default_if_none:'' }}"
+              >
+              {{ invoiceform.invoice_address.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button class="layui-btn" type="submit">保存地址信息</button>
+            </div>
+          </div>
+        </form>
       </div>
       <!--客户地址信息结束-->
     </div>
@@ -225,7 +252,7 @@
 
   <!-- 联系人信息 -->
   <div id="3" class="layui-row">
-    <blockquote class="layui-elem-quote">客户联系人信息</blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">客户联系人信息</blockquote>
     <table class="layui-table">
       <colgroup>
         <col>
@@ -258,7 +285,7 @@
 
   <!-- 客户拜访记录 -->
   <div id="4" class="layui-row">
-    <blockquote class="layui-elem-quote">客户拜访记录</blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">客户拜访记录</blockquote>
     <table class="layui-table">
       <colgroup>
         <col>
@@ -291,7 +318,7 @@
 
   <!-- 客户商机 -->
   <div id="2" class="layui-row">
-    <blockquote class="layui-elem-quote">客户商机</blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">客户商机</blockquote>
 
     <table class="layui-table">
       <colgroup>
@@ -320,12 +347,11 @@
       </tbody>
     </table>
   </div>
-  <hr>
   <!-- 客户商机结束 -->
 {% endblock %}
 
 {% block footer %}
-  <script src="/static/js/jquery-2.1.4.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
   <script src="/static/js/distpicker.js"></script>
   <script>
       //JavaScript代码区域

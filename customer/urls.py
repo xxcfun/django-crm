@@ -14,5 +14,10 @@ urlpatterns = [
     path('edit/<int:pk>', views.customer_edit, name='customer_edit'),
     # 删除客户
     path('delete/<int:pk>', views.customer_delete, name='customer_delete'),
-    #
+
+    # 客户信息的地址维护
+    # 客户收货地址
+    path('address/shop/<int:pk>', views.address_shop, name='address_shop'),
+    # 客户发票地址
+    path('address/invoice/<int:pk>', views.address_invoice, name='address_invoice')
 ]

@@ -97,43 +97,11 @@
 {% endblock %}
 
 {% block footer %}
-  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
-  <script src="/static/js/distpicker.js"></script>
   <script>
       //JavaScript代码区域
       layui.use(['element', 'form'], function () {
           var element = layui.element
               , form = layui.form;
-
-          form.on('select(shop_province)', function (data) {
-              $("#shop_province").val(data.value).change();
-              form.render();
-          })
-
-          form.on('select(shop_city)', function (data) {
-              $("#shop_city").val(data.value).change();
-              form.render();
-          })
-
-          form.on('select(shop_area)', function (data) {
-              $("#shop_area").val(data.value).change();
-              form.render();
-          })
-
-          form.on('select(invoice_province)', function (data) {
-              $("#invoice_province").val(data.value).change();
-              form.render();
-          })
-
-          form.on('select(invoice_city)', function (data) {
-              $("#invoice_city").val(data.value).change();
-              form.render();
-          })
-
-          form.on('select(invoice_area)', function (data) {
-              $("#invoice_area").val(data.value).change();
-              form.render();
-          })
       });
   </script>
 {% endblock %}
