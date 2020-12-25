@@ -39,8 +39,7 @@
             <div class="layui-input-block">
               <input type="text" name="name" required lay-verify="required"
                      autocomplete="off" class="layui-input"
-                     value="{{ form.name.value|default_if_none:'' }}"
-              >
+                     value="{{ form.name.value|default_if_none:'' }}">
               {{ form.name.errors }}
             </div>
           </div>
@@ -56,8 +55,7 @@
             <div class="layui-input-block">
               <input type="text" name="website"
                      autocomplete="off" class="layui-input"
-                     value="{{ form.website.value|default_if_none:'' }}"
-              >
+                     value="{{ form.website.value|default_if_none:'' }}">
               {{ form.website.errors }}
             </div>
           </div>
@@ -120,18 +118,16 @@
             <div class="layui-input-block">
               <input type="text" name="shop_username"
                      autocomplete="off" class="layui-input"
-                     value="{{ shopform.shop_username.value|default_if_none:'' }}"
-              >
+                     value="{{ shopform.shop_username.value|default_if_none:'' }}">
               {{ shopform.shop_username.errors }}
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">联系方式</label>
             <div class="layui-input-block">
-              <input type="text" name="shop_phone"
+              <input type="text" name="shop_phone" lay-verify="phone"
                      autocomplete="off" class="layui-input"
-                     value="{{ shopform.shop_phone.value|default_if_none:'' }}"
-              >
+                     value="{{ shopform.shop_phone.value|default_if_none:'' }}">
               {{ shopform.shop_phone.errors }}
             </div>
           </div>
@@ -162,8 +158,7 @@
             <div class="layui-input-block">
               <input type="text" name="shop_address"
                      autocomplete="off" class="layui-input"
-                     value="{{ shopform.shop_address.value|default_if_none:'' }}"
-              >
+                     value="{{ shopform.shop_address.value|default_if_none:'' }}">
               {{ shopform.shop_address.errors }}
             </div>
           </div>
@@ -188,18 +183,16 @@
             <div class="layui-input-block">
               <input type="text" name="invoice_username"
                      autocomplete="off" class="layui-input"
-                     value="{{ invoiceform.invoice_username.value|default_if_none:'' }}"
-              >
+                     value="{{ invoiceform.invoice_username.value|default_if_none:'' }}">
               {{ invoiceform.invoice_username.errors }}
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">联系方式</label>
             <div class="layui-input-block">
-              <input type="text" name="invoice_phone"
+              <input type="text" name="invoice_phone" lay-verify="phone"
                      autocomplete="off" class="layui-input"
-                     value="{{ invoiceform.invoice_phone.value|default_if_none:'' }}"
-              >
+                     value="{{ invoiceform.invoice_phone.value|default_if_none:'' }}">
               {{ invoiceform.invoice_phone.errors }}
             </div>
           </div>
@@ -231,8 +224,7 @@
             <div class="layui-input-block">
               <input type="text" name="invoice_address"
                      autocomplete="off" class="layui-input"
-                     value="{{ invoiceform.invoice_address.value|default_if_none:'' }}"
-              >
+                     value="{{ invoiceform.invoice_address.value|default_if_none:'' }}">
               {{ invoiceform.invoice_address.errors }}
             </div>
           </div>

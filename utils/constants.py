@@ -75,7 +75,7 @@ CUSTOMER_INDUSTRY = (
 """联系人是否在职"""
 INJOB_YES = 1
 INJOB_NO = 0
-INJOB_ITEMS = (
+LIAISON_INJOB = (
     (INJOB_YES, '在职'),
     (INJOB_NO, '离职'),
 )
@@ -87,7 +87,7 @@ JOB_PURCHASE = 3
 JOB_TECHNOLOGY = 4
 JOB_AFTERSALE = 5
 JOB_OTHER = 6
-JOB_ITEMS = (
+LIAISON_JOB = (
     (JOB_MANAGER, '经理'),
     (JOB_PURCHASE, '采购'),
     (JOB_TECHNOLOGY, '技术'),
@@ -96,13 +96,13 @@ JOB_ITEMS = (
     (JOB_OTHER, '其他'),
 )
 
-"""赢单率"""
+"""商机赢单率"""
 WINNING_NONE = 1
 WINNING_ERSHI = 2
 WINNING_WUSHI = 3
 WINNING_BASHI = 4
 WINNING_DONE = 5
-WINNING_ITEMS = (
+BUSINESS_WINNING = (
     (WINNING_NONE, '0%'),
     (WINNING_ERSHI, '20%'),
     (WINNING_WUSHI, '50%'),

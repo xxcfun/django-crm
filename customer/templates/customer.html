@@ -53,7 +53,7 @@
     </colgroup>
     <thead>
     <tr>
-      <th>选择</th>
+      <th></th>
       <th>客户名称</th>
       <th>客户级别</th>
       <th>客户规模</th>
@@ -67,8 +67,8 @@
     <!--数据-->
     {% for customer in customers %}
       <tr>
-        <td>
-          <input type="checkbox" name="" lay-skin="primary">
+        <td style="text-align: center">
+          {{ forloop.counter }}
         </td>
         <td>
           <a style="color: #01AAED" href="{% url 'customer_detail' customer.id %}">{{ customer.name }}</a>
