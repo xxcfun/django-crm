@@ -190,7 +190,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label">联系方式</label>
             <div class="layui-input-block">
-              <input type="text" name="invoice_phone" lay-verify="phone"
+              <input type="text" name="invoice_phone"
                      autocomplete="off" class="layui-input"
                      value="{{ invoiceform.invoice_phone.value|default_if_none:'' }}">
               {{ invoiceform.invoice_phone.errors }}

@@ -28,8 +28,7 @@
             <div class="layui-input-block">
               <input type="text" name="name" required lay-verify="required"
                      autocomplete="off" class="layui-input"
-                     value="{{ form.name.value|default_if_none:'' }}"
-              >
+                     value="{{ form.name.value|default_if_none:'' }}">
               {{ form.name.errors }}
             </div>
           </div>
@@ -45,8 +44,7 @@
             <div class="layui-input-block">
               <input type="text" name="website"
                      autocomplete="off" class="layui-input"
-                     value="{{ form.website.value|default_if_none:'' }}"
-              >
+                     value="{{ form.website.value|default_if_none:'' }}">
               {{ form.website.errors }}
             </div>
           </div>
