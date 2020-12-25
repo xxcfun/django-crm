@@ -45,10 +45,7 @@ def customer_detail(request, pk):
         form = CustomerForm(data=request.POST, instance=customer)
         if form.is_valid():
             form.save()
-            return render(request, 'customer_detail.html', {
-                'form': form,
-                'pk': pk
-            })
+            return redirect('customer_detail', pk)
         else:
             print(form.errors.as_json)
     else:
