@@ -96,6 +96,16 @@ LIAISON_JOB = (
     (JOB_OTHER, '其他'),
 )
 
+
+"""客户拜访方式"""
+STATUS_XS = 1
+STATUS_XX = 2
+RECORD_STATUS = (
+    (STATUS_XS, '线上'),
+    (STATUS_XX, '线下'),
+)
+
+
 """商机赢单率"""
 WINNING_NONE = 1
 WINNING_ERSHI = 2

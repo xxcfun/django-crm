@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>拜访记录详情</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote id="top" class="layui-elem-quote">
+    <a href="{% url 'record' %}">拜访记录</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">拜访记录详情</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">{{ form.customer.value }}</a>
+  </blockquote>
+
+  <hr class="layui-bg-green">
+
+  <!--客户商机详情-->
+  <div id="1" class="layui-row">
+    <!--客户基本信息-->
+    <form class="layui-form layui-col-md6" action="{% url 'record_detail' pk %}" method="post">
+      {% csrf_token %}
+      <blockquote class="layui-elem-quote layui-quote-nm">拜访记录详情</blockquote>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">* </span>客户名称</label>
+        <div class="layui-input-block" id="customer" style="pointer-events: none; cursor: not-allowed">
+          {{ form.customer }}
+          {{ form.customer.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">* </span>拜访方式</label>
+        <div class="layui-input-block">
+          {{ form.status }}
+          {{ form.status.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">* </span>主要事宜</label>
+        <div class="layui-input-block">
+          <textarea name="main" class="layui-textarea"
+                    placeholder="请输入内容">{{ form.main.value }}</textarea>
+          {{ form.main.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label"><span style="color: red">* </span>后续工作</label>
+        <div class="layui-input-block">
+          <textarea name="next" class="layui-textarea"
+                    placeholder="请输入内容">{{ form.next.value }}</textarea>
+          {{ form.next.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+          <textarea name="remarks" class="layui-textarea"
+                    placeholder="请输入内容">{{ form.remarks.value|default_if_none:'' }}</textarea>
+          {{ form.remarks.errors }}
+        </div>
+      </div>
+      {# 隐藏的表单，用户字段 #}
+      <input type="hidden" name="user"
+             autocomplete="off" class="layui-input"
+             value="{{ request.session.user_id }}">
+      {# 隐藏的表单，用户字段 #}
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="formDemo">提交更新</button>
+        </div>
+      </div>
+    </form>
+    <!--客户基本信息结束-->
+  </div>
+  <hr>
+  <!--客户商机详情结束-->
+{% endblock %}
+
+{% block footer %}
+  <script>
+      //JavaScript代码区域
+      layui.use(['element', 'form', 'jquery'], function () {
+          var element = layui.element
+              , form = layui.form
+              , $ = layui.$;
+
+          $(function () {
+              $("#customer input").attr("disabled", true);
+          })
+      });
+  </script>
+{% endblock %}

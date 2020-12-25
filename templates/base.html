@@ -20,7 +20,7 @@
     <ul class="layui-nav layui-layout-left">
       <li class="layui-nav-item"><a href="{% url 'customer_add' %}">添加客户</a></li>
       <li class="layui-nav-item"><a href="{% url 'liaison_add' %}">添加联系人</a></li>
-      <li class="layui-nav-item"><a href="">添加拜访记录</a></li>
+      <li class="layui-nav-item"><a href="{% url 'record_add' %}">添加拜访记录</a></li>
       <li class="layui-nav-item"><a href="">添加商机</a></li>
     </ul>
 
@@ -52,7 +52,7 @@
           <dl class="layui-nav-child">
             <dd><a href="{% url 'customer' %}">客户列表</a></dd>
             <dd><a href="{% url 'liaison' %}">联系人列表</a></dd>
-            <dd><a href="">拜访记录列表</a></dd>
+            <dd><a href="{% url 'record' %}">拜访记录列表</a></dd>
             <dd><a href="">商机列表</a></dd>
           </dl>
         </li>
