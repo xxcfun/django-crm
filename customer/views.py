@@ -51,10 +51,19 @@ def customer_detail(request, pk):
     else:
         form = CustomerForm(instance=customer)
     # 添加上地址信息
-    customer_shop = get_object_or_404(CustomerShop, customer=pk)
-    shopform = CustomerShopForm(instance=customer_shop)
-    customer_invoice = get_object_or_404(CustomerInvoice, customer=pk)
-    invoiceform = CustomerInvoiceForm(instance=customer_invoice)
+    # 下面这里引入异常处理，如果数据库里没有该字段，那么表单渲染为空
+    try:
+        customer_shop = CustomerShop.objects.get(customer=pk)
+        shopform = CustomerShopForm(instance=customer_shop)
+    except CustomerShop.DoesNotExist:
+        shopform = CustomerShopForm()
+
+    try:
+        customer_invoice = CustomerInvoice.objects.get(customer=pk)
+        invoiceform = CustomerInvoiceForm(instance=customer_invoice)
+    except CustomerShop.DoesNotExist:
+        invoiceform = CustomerInvoice()
+
     return render(request, 'customer_detail.html', {
         'form': form,
         'pk': pk,

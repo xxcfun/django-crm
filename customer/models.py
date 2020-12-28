@@ -31,7 +31,7 @@ class Customer(models.Model):
 
 class CustomerShop(models.Model):
     """客户收货地址信息"""
-    customer = models.ForeignKey(Customer, verbose_name='客户名称', related_name='customer_shop', on_delete=models.CASCADE)
+    customer = models.OneToOneField(Customer, verbose_name='客户名称', related_name='customer_shop', on_delete=models.CASCADE)
     shop_province = models.CharField(verbose_name='收货省份', max_length=32, blank=True, null=True)
     shop_city = models.CharField(verbose_name='收货市区', max_length=32, blank=True, null=True)
     shop_area = models.CharField(verbose_name='收货区域', max_length=32, blank=True, null=True)
@@ -42,6 +42,11 @@ class CustomerShop(models.Model):
 
     created_at = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='修改时间', auto_now=True)
+
+    def shop_address_add(self, pk):
+        self.customer_id = pk
+        self.save()
+        self.refresh_from_db()
 
     class Meta:
         db_table = 'customer_shop'
@@ -54,7 +59,7 @@ class CustomerShop(models.Model):
 
 class CustomerInvoice(models.Model):
     """客户发票地址信息"""
-    customer = models.ForeignKey(Customer, verbose_name='客户名称', related_name='customer_invoice', on_delete=models.CASCADE)
+    customer = models.OneToOneField(Customer, verbose_name='客户名称', related_name='customer_invoice', on_delete=models.CASCADE)
     invoice_province = models.CharField(verbose_name='发票省份', max_length=32, blank=True, null=True)
     invoice_city = models.CharField(verbose_name='发票市区', max_length=32, blank=True, null=True)
     invoice_area = models.CharField(verbose_name='发票区域', max_length=32, blank=True, null=True)
@@ -65,6 +70,11 @@ class CustomerInvoice(models.Model):
 
     created_at = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='修改时间', auto_now=True)
+
+    def invoice_address_add(self, pk):
+        self.customer_id = pk
+        self.save()
+        self.refresh_from_db()
 
     class Meta:
         db_table = 'customer_invoice'

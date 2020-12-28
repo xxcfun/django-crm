@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  <title>修改拜访记录-{{ form.theme.value }}</title>
+  <title>修改拜访记录信息-{{ form.theme.value }}</title>
 {% endblock %}
 
 {% block container %}
   <blockquote id="top" class="layui-elem-quote">
     <a href="{% url 'record' %}">拜访记录</a>
     &ensp;/&ensp;
-    <a href="javascript:;">修改拜访记录</a>
+    <a href="javascript:;">修改拜访记录信息</a>
     &ensp;/&ensp;
     <a href="javascript:;">{{ form.theme.value }}</a>
   </blockquote>
