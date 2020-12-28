@@ -23,6 +23,7 @@ class Record(models.Model):
     class Meta:
         db_table = 'record'
         verbose_name = verbose_name_plural = "客户拜访记录"
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.theme

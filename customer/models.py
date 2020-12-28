@@ -71,11 +71,6 @@ class CustomerInvoice(models.Model):
     created_at = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='修改时间', auto_now=True)
 
-    def invoice_address_add(self, pk):
-        self.customer_id = pk
-        self.save()
-        self.refresh_from_db()
-
     class Meta:
         db_table = 'customer_invoice'
         verbose_name = verbose_name_plural = "客户发票地址信息"

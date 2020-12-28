@@ -22,6 +22,7 @@ class Business(models.Model):
     class Meta:
         db_table = 'business'
         verbose_name = verbose_name_plural = "客户商机"
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.name

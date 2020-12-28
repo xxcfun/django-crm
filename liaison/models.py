@@ -27,6 +27,7 @@ class Liaison(models.Model):
     class Meta:
         db_table = 'liaison'
         verbose_name = verbose_name_plural = "联系人"
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.name
