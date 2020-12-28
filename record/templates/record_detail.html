@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  <title>拜访记录详情</title>
+  <title>拜访记录详情-{{ form.theme.value }}</title>
 {% endblock %}
 
 {% block container %}
@@ -10,7 +10,7 @@
     &ensp;/&ensp;
     <a href="javascript:;">拜访记录详情</a>
     &ensp;/&ensp;
-    <a href="javascript:;">{{ form.customer.value }}</a>
+    <a href="javascript:;">{{ form.theme.value }}</a>
   </blockquote>
 
   <hr class="layui-bg-green">
@@ -21,6 +21,14 @@
     <form class="layui-form layui-col-md6" action="{% url 'record_detail' pk %}" method="post">
       {% csrf_token %}
       <blockquote class="layui-elem-quote layui-quote-nm">拜访记录详情</blockquote>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">* </span>拜访主题</label>
+        <div class="layui-input-block">
+          <input type="text" name="theme" required autocomplete="off"
+                 class="layui-input" value="{{ form.theme.value|default_if_none:'' }}">
+          {{ form.theme.errors }}
+        </div>
+      </div>
       <div class="layui-form-item">
         <label class="layui-form-label"><span style="color: red">* </span>客户名称</label>
         <div class="layui-input-block" id="customer" style="pointer-events: none; cursor: not-allowed">

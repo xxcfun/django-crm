@@ -23,18 +23,20 @@
 
   <table class="layui-table">
     <colgroup>
-      <col width="5%">
-      <col width="15%">
-      <col width="8%">
-      <col width="21%">
-      <col width="21%">
-      <col width="14%">
-      <col width="6%">
-      <col width="10%">
+      <col width="">
+      <col width="">
+      <col width="">
+      <col width="">
+      <col width="">
+      <col width="">
+      <col width="">
+      <col width="">
+      <col width="">
     </colgroup>
     <thead>
     <tr>
       <th>选择</th>
+      <th>拜访主题</th>
       <th>客户名称</th>
       <th>拜访方式</th>
       <th>主要事宜</th>
@@ -52,7 +54,10 @@
           {{ forloop.counter }}
         </td>
         <td>
-          <a style="color: #01AAED" href="{% url 'record_detail' record.id %}">{{ record.customer }}</a>
+          <a style="color: #01AAED" href="{% url 'record_detail' record.id %}">{{ record.theme }}</a>
+        </td>
+        <td style="color: #01AAED">
+          {{ record.customer }}
         </td>
         <td>
           {{ record.get_status_display }}
