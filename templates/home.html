@@ -12,14 +12,22 @@
   </blockquote>
   <hr class="layui-bg-green">
 
+{#  <a class="layui-btn layui-btn layui-btn-normal" href="">更新数据</a>#}
   <!--排名情况-->
   <div class="layui-card">
     <div class="layui-card-body">
       <div class="layui-row">
-        <div class="layui-col-md8">
-          <h3 style="padding-top: 10px; padding-bottom: 5px;">今日数据汇总</h3>
+        <div class="layui-col-md16">
           <table class="layui-table">
             <colgroup>
+              <col>
+              <col>
+              <col>
+              <col>
+              <col>
+              <col>
+              <col>
+              <col>
               <col>
               <col>
               <col>
@@ -29,94 +37,110 @@
             <thead>
             <tr>
               <th>姓名</th>
-              <th>新增客户</th>
-              <th>新增联系人</th>
-              <th>新增拜访记录</th>
-              <th>新增商机</th>
+              <th style="color: #393D49">今日客户</th>
+              <th style="color: #393D49">今日联系人</th>
+              <th style="color: #393D49">今日拜访记录</th>
+              <th style="color: #393D49">今日商机</th>
+              <th style="color: #1E9FFF">本月客户</th>
+              <th style="color: #1E9FFF">本月联系人</th>
+              <th style="color: #1E9FFF">本月拜访记录</th>
+              <th style="color: #1E9FFF">本月商机</th>
+              <th style="color: #2F4056">全部客户</th>
+              <th style="color: #2F4056">全部联系人</th>
+              <th style="color: #2F4056">全部拜访记录</th>
+              <th style="color: #2F4056">全部商机</th>
             </tr>
             </thead>
             <tbody>
-{#            {% for count in counts %}#}
+            {% for count in counts %}
             <tr>
-              <td>测试用户</td>
-              <td>1</td>
-              <td>2</td>
-              <td>1</td>
-              <td>1</td>
+              <td style="color: #01AAED">{{ count.name }}</td>
+              <td style="color: #393D49;">{{ count.day_customer }}</td>
+              <td style="color: #393D49;">{{ count.day_liaison }}</td>
+              <td style="color: #393D49;">{{ count.day_record }}</td>
+              <td style="color: #393D49;">{{ count.day_business }}</td>
+              <td style="color: #1E9FFF">{{ count.month_customer }}</td>
+              <td style="color: #1E9FFF">{{ count.month_liaison }}</td>
+              <td style="color: #1E9FFF">{{ count.month_record }}</td>
+              <td style="color: #1E9FFF">{{ count.month_business }}</td>
+              <td style="color: #2F4056">{{ count.all_customer }}</td>
+              <td style="color: #2F4056">{{ count.all_liaison }}</td>
+              <td style="color: #2F4056">{{ count.all_record }}</td>
+              <td style="color: #2F4056">{{ count.all_business }}</td>
             </tr>
-{#            {% endfor %}#}
+            {% endfor %}
             </tbody>
           </table>
         </div>
       </div>
-      <div class="layui-row">
-        <div class="layui-col-md8">
-          <h3 style="padding-top: 10px; padding-bottom: 5px;">本月数据汇总</h3>
-          <table class="layui-table">
-            <colgroup>
-              <col>
-              <col>
-              <col>
-              <col>
-              <col>
-            </colgroup>
-            <thead>
-            <tr>
-              <th>姓名</th>
-              <th>新增客户</th>
-              <th>新增联系人</th>
-              <th>新增拜访记录</th>
-              <th>新增商机</th>
-            </tr>
-            </thead>
-            <tbody>
+{#      <div class="layui-row">#}
+{#        <div class="layui-col-md8">#}
+{#          <h3 style="padding-top: 10px; padding-bottom: 5px;">本月数据汇总</h3>#}
+{#          <table class="layui-table">#}
+{#            <colgroup>#}
+{#              <col>#}
+{#              <col>#}
+{#              <col>#}
+{#              <col>#}
+{#              <col>#}
+{#            </colgroup>#}
+{#            <thead>#}
+{#            <tr>#}
+{#              <th>姓名</th>#}
+{#              <th>新增客户</th>#}
+{#              <th>新增联系人</th>#}
+{#              <th>新增拜访记录</th>#}
+{#              <th>新增商机</th>#}
+{#            </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
 {#            {% for count in counts %}#}
-            <tr>
-              <td>测试用户</td>
-              <td>1</td>
-              <td>2</td>
-              <td>1</td>
-              <td>1</td>
-            </tr>
+{#            <tr>#}
+{#              <td>测试用户</td>#}
+{#              <td>1</td>#}
+{#              <td>2</td>#}
+{#              <td>1</td>#}
+{#              <td>1</td>#}
+{#            </tr>#}
 {#            {% endfor %}#}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="layui-row">
-        <div class="layui-col-md8">
-          <h3 style="padding-top: 10px; padding-bottom: 5px;">所有数据汇总</h3>
-          <table class="layui-table">
-            <colgroup>
-              <col>
-              <col>
-              <col>
-              <col>
-              <col>
-            </colgroup>
-            <thead>
-            <tr>
-              <th>姓名</th>
-              <th>新增客户</th>
-              <th>新增联系人</th>
-              <th>新增拜访记录</th>
-              <th>新增商机</th>
-            </tr>
-            </thead>
-            <tbody>
+{#            </tbody>#}
+{#          </table>#}
+{#        </div>#}
+{#      </div>#}
+{#      <div class="layui-row">#}
+{#        <div class="layui-col-md8">#}
+{#          <h3 style="padding-top: 10px; padding-bottom: 5px;">所有数据汇总</h3>#}
+{#          <table class="layui-table">#}
+{#            <colgroup>#}
+{#              <col>#}
+{#              <col>#}
+{#              <col>#}
+{#              <col>#}
+{#              <col>#}
+{#            </colgroup>#}
+{#            <thead>#}
+{#            <tr>#}
+{#              <th>姓名</th>#}
+{#              <th>新增客户</th>#}
+{#              <th>新增联系人</th>#}
+{#              <th>新增拜访记录</th>#}
+{#              <th>新增商机</th>#}
+{#            </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
 {#            {% for count in counts %}#}
-            <tr>
-              <td>测试用户</td>
-              <td>1</td>
-              <td>2</td>
-              <td>1</td>
-              <td>1</td>
-            </tr>
+{#            <tr>#}
+{#              <td>测试用户</td>#}
+{#              <td>1</td>#}
+{#              <td>2</td>#}
+{#              <td>1</td>#}
+{#              <td>1</td>#}
+{#            </tr>#}
 {#            {% endfor %}#}
-            </tbody>
-          </table>
-        </div>
-      </div>
+{#            </tbody>#}
+{#          </table>#}
+{#        </div>#}
+{#      </div>#}
     </div>
   </div>
 {% endblock %}

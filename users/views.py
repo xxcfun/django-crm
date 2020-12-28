@@ -1,7 +1,13 @@
+import datetime
+
 from django.shortcuts import render, redirect, get_object_or_404
 
+from business.models import Business
+from customer.models import Customer
+from liaison.models import Liaison
+from record.models import Record
 from users import forms
-from users.models import User
+from users.models import User, Count
 
 
 def index(request):
@@ -14,9 +20,50 @@ def index(request):
 
 def home(request):
     """系统首页"""
-    pass
-    return render(request, 'home.html', {
 
+    # 初始化用户的统计数据
+    user_id = request.session.get('user_id')
+    user_name = request.session.get('user_name')
+    Count.objects.get_or_create(user_id=user_id, name=user_name)
+
+    # 获取月份和当天日期
+    year = datetime.datetime.now().year
+    month = datetime.datetime.now().month
+    day = datetime.datetime.now().day
+    print(month, day)
+
+    # 统计数量
+    customer = Customer.objects.filter(user=user_id)
+    liaison = Liaison.objects.filter(user=user_id)
+    record = Record.objects.filter(user=user_id)
+    business = Business.objects.filter(user=user_id)
+
+    month_customer = customer.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
+    month_liaison = liaison.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
+    month_record = record.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
+    month_business = business.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
+
+    day_customer = customer.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
+    day_liaison = liaison.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
+    day_record = record.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
+    day_business = business.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
+
+    all_customer = customer.filter().count()  # 全部
+    all_liaison = liaison.filter().count()  # 全部
+    all_record = record.filter().count()  # 全部
+    all_business = business.filter().count()  # 全部
+
+    Count.objects.filter(user_id=user_id).update(day_customer=day_customer, day_liaison=day_liaison,
+                                                 day_record=day_record, day_business=day_business,
+                                                 month_customer=month_customer, month_liaison=month_liaison,
+                                                 month_record=month_record, month_business=month_business,
+                                                 all_customer=all_customer, all_liaison=all_liaison,
+                                                 all_record=all_record, all_business=all_business)
+
+    # 渲染数据到home页面
+    counts = Count.objects.all()
+    return render(request, 'home.html', {
+        'counts': counts
     })
 
 
