@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from django.views.generic import ListView
 
+from customer.models import Customer
 from record.forms import RecordForm
 from record.models import Record
 
@@ -25,6 +26,8 @@ class RecordView(ListView):
 
 def record_add(request):
     """拜访记录添加"""
+    user_id = request.session.get('user_id')
+    customers = Customer.objects.filter(user=user_id)
     if request.method == 'POST':
         form = RecordForm(data=request.POST)
         if form.is_valid():
@@ -35,7 +38,8 @@ def record_add(request):
     else:
         form = RecordForm()
     return render(request, 'record_add.html', {
-        'form': form
+        'form': form,
+        'customers': customers
     })
 
 

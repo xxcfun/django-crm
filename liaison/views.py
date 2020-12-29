@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 
+from customer.models import Customer
 from liaison.forms import LiaisonForm
 from liaison.models import Liaison
 
@@ -23,6 +24,8 @@ class LiaisonView(ListView):
 
 def liaison_add(request):
     """联系人添加"""
+    user_id = request.session.get('user_id')
+    customers = Customer.objects.filter(user=user_id)
     if request.method == 'POST':
         form = LiaisonForm(data=request.POST)
         if form.is_valid():
@@ -33,7 +36,8 @@ def liaison_add(request):
     else:
         form = LiaisonForm()
     return render(request, 'liaison_add.html', {
-        'form': form
+        'form': form,
+        'customers': customers
     })
 
 

@@ -5,6 +5,7 @@ from django.views.generic import ListView
 
 from business.forms import BusinessForm
 from business.models import Business
+from customer.models import Customer
 
 
 class BusinessView(ListView):
@@ -25,6 +26,8 @@ class BusinessView(ListView):
 
 def business_add(request):
     """商机添加"""
+    user_id = request.session.get('user_id')
+    customers = Customer.objects.filter(user=user_id)
     if request.method == 'POST':
         form = BusinessForm(data=request.POST)
         if form.is_valid():
@@ -35,7 +38,8 @@ def business_add(request):
     else:
         form = BusinessForm()
     return render(request, 'business_add.html', {
-        'form': form
+        'form': form,
+        'customers': customers
     })
 
 

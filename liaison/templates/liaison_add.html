@@ -30,9 +30,17 @@
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label"><span style="color: red">* </span>客户名称</label>
+{#        <div class="layui-input-block">#}
+{#          {{ form.customer|default_if_none:'' }}#}
+{#          {{ form.customer.errors }}#}
+{#        </div>#}
         <div class="layui-input-block">
-          {{ form.customer|default_if_none:'' }}
-          {{ form.customer.errors }}
+          <select name="customer" lay-verify="required">
+            <option value=""></option>
+            {% for customer in customers %}
+              <option value="{{ customer.pk }}">{{ customer.name }}</option>
+            {% endfor %}
+          </select>
         </div>
       </div>
       <div class="layui-form-item">
