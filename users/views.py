@@ -7,7 +7,7 @@ from customer.models import Customer
 from liaison.models import Liaison
 from record.models import Record
 from users import forms
-from users.models import User, Count
+from users.models import User, Count, Date
 
 
 def index(request):
@@ -30,35 +30,44 @@ def home(request):
     year = datetime.datetime.now().year
     month = datetime.datetime.now().month
     day = datetime.datetime.now().day
-    print(month, day)
 
     # 统计数量
-    customer = Customer.objects.filter(user=user_id)
-    liaison = Liaison.objects.filter(user=user_id)
-    record = Record.objects.filter(user=user_id)
-    business = Business.objects.filter(user=user_id)
+    counts = Count.objects.all()
+    for count in counts:
+        customer = Customer.objects.filter(user=count.user_id)
+        liaison = Liaison.objects.filter(user=count.user_id)
+        record = Record.objects.filter(user=count.user_id)
+        business = Business.objects.filter(user=count.user_id)
 
-    month_customer = customer.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
-    month_liaison = liaison.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
-    month_record = record.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
-    month_business = business.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
+        month_customer = customer.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
+        month_liaison = liaison.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
+        month_record = record.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
+        month_business = business.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
 
-    day_customer = customer.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
-    day_liaison = liaison.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
-    day_record = record.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
-    day_business = business.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
+        day_customer = customer.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
+        day_liaison = liaison.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
+        day_record = record.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
+        day_business = business.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
 
-    all_customer = customer.filter().count()  # 全部
-    all_liaison = liaison.filter().count()  # 全部
-    all_record = record.filter().count()  # 全部
-    all_business = business.filter().count()  # 全部
+        all_customer = customer.filter().count()  # 全部
+        all_liaison = liaison.filter().count()  # 全部
+        all_record = record.filter().count()  # 全部
+        all_business = business.filter().count()  # 全部
 
-    Count.objects.filter(user_id=user_id).update(day_customer=day_customer, day_liaison=day_liaison,
-                                                 day_record=day_record, day_business=day_business,
-                                                 month_customer=month_customer, month_liaison=month_liaison,
-                                                 month_record=month_record, month_business=month_business,
-                                                 all_customer=all_customer, all_liaison=all_liaison,
-                                                 all_record=all_record, all_business=all_business)
+        Count.objects.filter(user_id=count.user_id).update(day_customer=day_customer, day_liaison=day_liaison,
+                                                     day_record=day_record, day_business=day_business,
+                                                     month_customer=month_customer, month_liaison=month_liaison,
+                                                     month_record=month_record, month_business=month_business,
+                                                     all_customer=all_customer, all_liaison=all_liaison,
+                                                     all_record=all_record, all_business=all_business)
+
+    # # 判断日期
+    # date = get_object_or_404(Date, pk=1)
+    # if date.day != day:
+    #     Count.objects.all().update(day_customer=0, day_liaison=0, day_record=0, day_business=0)
+    #     counts = Count.objects.all()
+    # else:
+    #     counts = Count.objects.all()
 
     # 渲染数据到home页面
     counts = Count.objects.all()

@@ -47,3 +47,16 @@ class Count(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Date(models.Model):
+    """日期表"""
+    day = models.IntegerField(verbose_name='日期')
+    month = models.IntegerField(verbose_name='月份')
+
+    class Meta:
+        db_table = 'date'
+        verbose_name_plural = verbose_name = '日期表'
+
+    def __str__(self):
+        return self.day
