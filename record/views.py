@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -6,6 +7,7 @@ from django.views.generic import ListView
 from customer.models import Customer
 from record.forms import RecordForm
 from record.models import Record
+from users.models import User
 
 
 class RecordView(ListView):
@@ -87,3 +89,37 @@ def record_delete(request, pk):
     record = get_object_or_404(Record, pk=pk, user=user, is_valid=True)
     record.delete()
     return redirect('record')
+
+
+def record_all(request):
+    """所有拜访记录"""
+    users = User.objects.all().exclude(role=3).exclude(role=5)
+    if 'theme' in request.GET and request.GET['theme']:
+        theme = request.GET['theme']
+        records = Record.objects.filter(theme__icontains=theme).exclude(is_valid=False)
+    elif 'user_id' in request.GET and request.GET['user_id']:
+        user_id = request.GET['user_id']
+        records = Record.objects.filter(user=user_id).exclude(is_valid=False)
+    else:
+        records = Record.objects.exclude(is_valid=False)
+    paginator = Paginator(records, 10)
+    page = request.GET.get('page')
+    try:
+        records = paginator.page(page)
+    except PageNotAnInteger:
+        records = paginator.page(1)
+    except EmptyPage:
+        records = paginator.page(paginator.num_pages)
+    return render(request, 'record_all.html', {
+        'records': records,
+        'users': users
+    })
+
+
+def record_all_detail(request, pk):
+    """拜访记录详情"""
+    record = get_object_or_404(Record, pk=pk, is_valid=True)
+    form = RecordForm(instance=record)
+    return render(request, 'record_all_detail.html', {
+        'form': form,
+    })

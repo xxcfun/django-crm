@@ -14,4 +14,9 @@ urlpatterns = [
     path('edit/<int:pk>', views.record_edit, name='record_edit'),
     # 删除拜访记录
     path('delete/<int:pk>', views.record_delete, name='record_delete'),
+
+    # 所有拜访记录列表
+    path('all/', views.record_all, name='record_all'),
+    # 客户详情
+    path('all/detail/<int:pk>', views.record_all_detail, name='record_all_detail')
 ]

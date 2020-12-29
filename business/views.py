@@ -1,3 +1,4 @@
+from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -6,6 +7,7 @@ from django.views.generic import ListView
 from business.forms import BusinessForm
 from business.models import Business
 from customer.models import Customer
+from users.models import User
 
 
 class BusinessView(ListView):
@@ -87,3 +89,37 @@ def business_delete(request, pk):
     business = get_object_or_404(Business, pk=pk, user=user, is_valid=True)
     business.delete()
     return redirect('business')
+
+
+def business_all(request):
+    # 所有商机
+    users = User.objects.all().exclude(role=3).exclude(role=5)
+    if 'name' in request.GET and request.GET['name']:
+        name = request.GET['name']
+        businesses = Business.objects.filter(name__icontains=name).exclude(is_valid=False)
+    elif 'user_id' in request.GET and request.GET['user_id']:
+        user_id = request.GET['user_id']
+        businesses = Business.objects.filter(user=user_id).exclude(is_valid=False)
+    else:
+        businesses = Business.objects.exclude(is_valid=False)
+    paginator = Paginator(businesses, 10)
+    page = request.GET.get('page')
+    try:
+        businesses = paginator.page(page)
+    except PageNotAnInteger:
+        businesses = paginator.page(1)
+    except EmptyPage:
+        businesses = paginator.page(paginator.num_pages)
+    return render(request, 'business_all.html', {
+        'businesses': businesses,
+        'users': users
+    })
+
+
+def business_all_detail(request, pk):
+    # 商机详情
+    business = get_object_or_404(Business, pk=pk, is_valid=True)
+    form = BusinessForm(instance=business)
+    return render(request, 'business_all_detail.html', {
+        'form': form,
+    })

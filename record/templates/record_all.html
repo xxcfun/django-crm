@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  <title>拜访记录列表</title>
+  <title>所有拜访记录列表</title>
 {% endblock %}
 
 {% block container %}
   <blockquote class="layui-elem-quote">
-    <a href="{% url 'record' %}">拜访记录</a>
+    <a href="{% url 'record_all' %}">所有拜访记录</a>
     &ensp;/&ensp;
-    <a href="javascript:;">拜访记录列表</a>
+    <a href="javascript:;">所有拜访记录列表</a>
   </blockquote>
 
   <hr class="layui-bg-green">
@@ -16,15 +16,25 @@
   <!--按钮组-->
   <form class="layui-form" action="." method="get">
     <div class="layui-form-item" pane>
-      <input type="search" name="name" placeholder="请输入客户名称进行搜索"
+      <input type="search" name="theme" placeholder="请输入拜访主题进行搜索"
              autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-item" style="width: 50%; margin-top: 10px;">
+      <div class="layui-input-inline">
+        <select name="user_id">
+          <option value=""></option>
+          {% for user in users %}
+            <option value="{{ user.pk }}">{{ user.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">提交搜索</button>
     </div>
   </form>
 
   <table class="layui-table">
     <colgroup>
-      <col width="">
-      <col width="">
+      <col width="5%">
       <col width="">
       <col width="">
       <col width="">
@@ -43,7 +53,6 @@
       <th>后续工作安排</th>
       <th>创建时间</th>
       <th>创建人</th>
-      <th>操作</th>
     </tr>
     </thead>
     <tbody>
@@ -54,7 +63,7 @@
           {{ forloop.counter }}
         </td>
         <td>
-          <a style="color: #01AAED" href="{% url 'record_detail' record.id %}">{{ record.theme }}</a>
+          <a style="color: #01AAED" href="{% url 'record_all_detail' record.id %}">{{ record.theme }}</a>
         </td>
         <td>
           {{ record.customer }}
@@ -74,29 +83,31 @@
         <td>
           {{ record.user }}
         </td>
-        <td>
-          <div class="layui-btn-group">
-            <a class="layui-btn layui-btn-sm layui-btn-normal" href="{% url 'record_edit' record.id %}">编辑</a>
-            <a class="layui-btn layui-btn-sm layui-btn-danger"
-               onclick="return deleteRec();" href="{% url 'record_delete' record.id %}">删除</a>
-          </div>
-        </td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
 
-  <!--分页器-->
-  {% if page_obj %}
-    {% if page_obj.has_previous %}
-      <a class="layui-btn layui-btn-normal layui-btn-sm" href="?page={{ page_obj.previous_page_number }}">上一页</a>
-    {% endif %}
-    <a class="layui-btn layui-btn-primary layui-btn-sm" href="javascript:;">当前页 {{ page_obj.number }}
-      共 {{ paginator.num_pages }} 页.</a>
-    {% if page_obj.has_next %}
-      <a class="layui-btn layui-btn-normal layui-btn-sm" href="?page={{ page_obj.next_page_number }}">下一页</a>
-    {% endif %}
-  {% endif %}
+    <!--分页器-->
+  <div>
+    <nav>
+      <ul class="pagination">
+        <li class="step-links">
+          {% if records.has_previous %}
+            <a class='active layui-btn layui-btn-normal layui-btn-sm' href="?page={{ records.previous_page_number }}">上一页</a>
+          {% endif %}
+
+          <span class="current layui-btn layui-btn-primary layui-btn-sm">
+            当前页 {{ records.number }}. 共 {{ records.paginator.num_pages }} 页.</span>
+
+          {% if records.has_next %}
+            <a class='active layui-btn layui-btn-normal layui-btn-sm'
+               href="?page={{ records.next_page_number }}">下一页</a>
+          {% endif %}
+        </li>
+      </ul>
+    </nav>
+  </div>
 {% endblock %}
 
 {% block footer %}

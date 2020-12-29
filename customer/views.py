@@ -1,8 +1,10 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
 from customer.forms import CustomerForm, CustomerShopForm, CustomerInvoiceForm
 from customer.models import Customer, CustomerShop, CustomerInvoice
+from users.models import User
 
 
 class CustomerView(ListView):
@@ -61,8 +63,8 @@ def customer_detail(request, pk):
     try:
         customer_invoice = CustomerInvoice.objects.get(customer=pk)
         invoiceform = CustomerInvoiceForm(instance=customer_invoice)
-    except CustomerShop.DoesNotExist:
-        invoiceform = CustomerInvoice()
+    except CustomerInvoice.DoesNotExist:
+        invoiceform = CustomerInvoiceForm()
 
     return render(request, 'customer_detail.html', {
         'form': form,
@@ -101,35 +103,69 @@ def customer_delete(request, pk):
 
 def address_shop(request, pk):
     """客户收货地址"""
-    customer_shop = get_object_or_404(CustomerShop, customer=pk)
-    if request.method == 'POST':
-        shopform = CustomerShopForm(data=request.POST, instance=customer_shop)
-        if shopform.is_valid():
-            shopform.save()
-            return redirect('customer_detail', pk)
-        else:
-            print(shopform.errors.as_json)
+    shopform = CustomerShopForm(data=request.POST)
+    if shopform.is_valid():
+        shopform.save()
     else:
-        shopform = CustomerShopForm(instance=customer_shop)
-    return render(request, 'customer_detail.html', {
-        'shopform': shopform,
-        'pk': pk
-    })
+        print(shopform.errors.as_json)
+    return redirect('customer_detail', pk)
 
 
 def address_invoice(request, pk):
     """客户发票地址"""
-    customer_invoice = get_object_or_404(CustomerInvoice, customer=pk)
-    if request.method == 'POST':
-        invoiceform = CustomerInvoiceForm(data=request.POST, instance=customer_invoice)
-        if invoiceform.is_valid():
-            invoiceform.save()
-            return redirect('customer_detail', pk)
-        else:
-            print(invoiceform.errors.as_json)
+    invoiceform = CustomerInvoiceForm(data=request.POST)
+    if invoiceform.is_valid():
+        invoiceform.save()
     else:
+        print(invoiceform.errors.as_json)
+    return redirect('customer_detail', pk)
+
+
+def customer_all(request):
+    """所有客户，可筛选"""
+    users = User.objects.all().exclude(role=3).exclude(role=5)
+    if 'name' in request.GET and request.GET['name']:
+        name = request.GET['name']
+        customers = Customer.objects.filter(name__icontains=name).exclude(is_valid=False)
+    elif 'user_id' in request.GET and request.GET['user_id']:
+        user_id = request.GET['user_id']
+        customers = Customer.objects.filter(user=user_id).exclude(is_valid=False)
+    else:
+        customers = Customer.objects.exclude(is_valid=False)
+    paginator = Paginator(customers, 10)
+    page = request.GET.get('page')
+    try:
+        customers = paginator.page(page)
+    except PageNotAnInteger:
+        customers = paginator.page(1)
+    except EmptyPage:
+        customers = paginator.page(paginator.num_pages)
+    return render(request, 'customer_all.html', {
+        'customers': customers,
+        'users': users
+    })
+
+
+def customer_all_detail(request, pk):
+    """客户详情（不能更改信息）"""
+    customer = get_object_or_404(Customer, pk=pk, is_valid=True)
+    form = CustomerForm(instance=customer)
+    # 添加上地址信息
+    # 下面这里引入异常处理，如果数据库里没有该字段，那么表单渲染为空
+    try:
+        customer_shop = CustomerShop.objects.get(customer=pk)
+        shopform = CustomerShopForm(instance=customer_shop)
+    except CustomerShop.DoesNotExist:
+        shopform = CustomerShopForm()
+
+    try:
+        customer_invoice = CustomerInvoice.objects.get(customer=pk)
         invoiceform = CustomerInvoiceForm(instance=customer_invoice)
-    return render(request, 'customer_detail.html', {
-        'invoiceform': invoiceform,
-        'pk': pk
+    except CustomerInvoice.DoesNotExist:
+        invoiceform = CustomerInvoiceForm()
+    return render(request, 'customer_all_detail.html', {
+        'form': form,
+        'pk': pk,
+        'shopform': shopform,
+        'invoiceform': invoiceform
     })

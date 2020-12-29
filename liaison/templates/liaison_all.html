@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  <title>联系人列表</title>
+  <title>所有联系人列表</title>
 {% endblock %}
 
 {% block container %}
   <blockquote class="layui-elem-quote">
-    <a href="{% url 'liaison' %}">联系人</a>
+    <a href="{% url 'liaison_all' %}">所有联系人</a>
     &ensp;/&ensp;
-    <a href="javascript:;">联系人列表</a>
+    <a href="javascript:;">所有联系人列表</a>
   </blockquote>
 
   <hr class="layui-bg-green">
@@ -18,6 +18,17 @@
     <div class="layui-form-item" pane>
       <input type="search" name="name" placeholder="请输入联系人姓名进行搜索"
              autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-item" style="width: 50%; margin-top: 10px;">
+      <div class="layui-input-inline">
+        <select name="user_id">
+          <option value=""></option>
+          {% for user in users %}
+            <option value="{{ user.pk }}">{{ user.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">提交搜索</button>
     </div>
   </form>
 
@@ -31,7 +42,6 @@
       <col>
       <col>
       <col>
-      <col width="10%">
     </colgroup>
     <thead>
     <tr>
@@ -43,7 +53,6 @@
       <th>是否在职</th>
       <th>创建时间</th>
       <th>创建人</th>
-      <th>操作</th>
     </tr>
     </thead>
     <tbody>
@@ -54,7 +63,7 @@
           {{ forloop.counter }}
         </td>
         <td>
-          <a style="color: #01AAED" href="{% url 'liaison_detail' liaison.id %}">{{ liaison.name }}</a>
+          <a style="color: #01AAED" href="{% url 'liaison_all_detail' liaison.id %}">{{ liaison.name }}</a>
         </td>
         <td>
           {{ liaison.customer }}
@@ -74,29 +83,31 @@
         <td>
           {{ liaison.user }}
         </td>
-        <td>
-          <div class="layui-btn-group">
-            <a class="layui-btn layui-btn-sm layui-btn-normal" href="{% url 'liaison_edit' liaison.id %}">编辑</a>
-            <a class="layui-btn layui-btn-sm layui-btn-danger"
-               onclick="return deleteLia();" href="{% url 'liaison_delete' liaison.id %}">删除</a>
-          </div>
-        </td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
 
   <!--分页器-->
-  {% if page_obj %}
-    {% if page_obj.has_previous %}
-      <a class="layui-btn layui-btn-normal layui-btn-sm" href="?page={{ page_obj.previous_page_number }}">上一页</a>
-    {% endif %}
-    <a class="layui-btn layui-btn-primary layui-btn-sm" href="javascript:;">当前页 {{ page_obj.number }}
-      共 {{ paginator.num_pages }} 页.</a>
-    {% if page_obj.has_next %}
-      <a class="layui-btn layui-btn-normal layui-btn-sm" href="?page={{ page_obj.next_page_number }}">下一页</a>
-    {% endif %}
-  {% endif %}
+  <div>
+    <nav>
+      <ul class="pagination">
+        <li class="step-links">
+          {% if liaisons.has_previous %}
+            <a class='active layui-btn layui-btn-normal layui-btn-sm' href="?page={{ liaisons.previous_page_number }}">上一页</a>
+          {% endif %}
+
+          <span class="current layui-btn layui-btn-primary layui-btn-sm">
+            当前页 {{ liaisons.number }}. 共 {{ liaisons.paginator.num_pages }} 页.</span>
+
+          {% if liaisons.has_next %}
+            <a class='active layui-btn layui-btn-normal layui-btn-sm'
+               href="?page={{ liaisons.next_page_number }}">下一页</a>
+          {% endif %}
+        </li>
+      </ul>
+    </nav>
+  </div>
 {% endblock %}
 
 {% block footer %}
@@ -113,14 +124,5 @@
               , count: 50  // 总数，服务器传来
           });
       });
-  </script>
-  <script type="text/javascript" language="JavaScript">
-      function deleteLia() {
-          if (confirm("确定要删除吗？")) {
-              return true;
-          } else {
-              return false;
-          }
-      }
   </script>
 {% endblock %}

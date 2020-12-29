@@ -19,5 +19,10 @@ urlpatterns = [
     # 客户收货地址
     path('address/shop/<int:pk>', views.address_shop, name='address_shop'),
     # 客户发票地址
-    path('address/invoice/<int:pk>', views.address_invoice, name='address_invoice')
+    path('address/invoice/<int:pk>', views.address_invoice, name='address_invoice'),
+
+    # 所有客户列表
+    path('all/', views.customer_all, name='customer_all'),
+    # 客户详情
+    path('all/detail/<int:pk>', views.customer_all_detail, name='customer_all_detail')
 ]

@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>所有客户列表</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote class="layui-elem-quote">
+    <a href="{% url 'customer_all' %}">所有客户</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">所有客户列表</a>
+  </blockquote>
+
+  <hr class="layui-bg-green">
+
+  <!--按钮组-->
+  <form class="layui-form" action="." method="get">
+    <div class="layui-form-customer" pane style="display: flex">
+      <input type="search" name="name" placeholder="请输入客户名称进行搜索"
+             autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-item" style="width: 50%; margin-top: 10px;">
+      <div class="layui-input-inline">
+        <select name="user_id">
+          <option value=""></option>
+          {% for user in users %}
+            <option value="{{ user.pk }}">{{ user.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">提交搜索</button>
+    </div>
+  </form>
+
+  <table class="layui-table">
+    <colgroup>
+      <col width="5%">
+      <col>
+      <col>
+      <col>
+      <col>
+      <col>
+      <col>
+    </colgroup>
+    <thead>
+    <tr>
+      <th></th>
+      <th>客户名称</th>
+      <th>客户级别</th>
+      <th>客户规模</th>
+      <th>客户行业</th>
+      <th>创建时间</th>
+      <th>创建人</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--数据-->
+    {% for customer in customers %}
+      <tr>
+        <td style="text-align: center">
+          {{ forloop.counter }}
+        </td>
+        <td>
+          <a style="color: #01AAED" href="{% url 'customer_all_detail' customer.id %}">{{ customer.name }}</a>
+        </td>
+        <td>
+          {{ customer.get_rank_display }}
+        </td>
+        <td>
+          {{ customer.get_scale_display }}
+        </td>
+        <td>
+          {{ customer.get_industry_display|default_if_none:'' }}
+        </td>
+        <td>
+          {{ customer.created_at }}
+        </td>
+        <td>
+          {{ customer.user }}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <!--分页器-->
+  <div>
+    <nav>
+      <ul class="pagination">
+        <li class="step-links">
+          {% if customers.has_previous %}
+            <a class='active layui-btn layui-btn-normal layui-btn-sm' href="?page={{ customers.previous_page_number }}">上一页</a>
+          {% endif %}
+
+          <span class="current layui-btn layui-btn-primary layui-btn-sm">
+            当前页 {{ customers.number }}. 共 {{ customers.paginator.num_pages }} 页.</span>
+
+          {% if customers.has_next %}
+            <a class='active layui-btn layui-btn-normal layui-btn-sm'
+               href="?page={{ customers.next_page_number }}">下一页</a>
+          {% endif %}
+        </li>
+      </ul>
+    </nav>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <script>
+    //JavaScript代码区域
+    layui.use(['element', 'laypage', 'form'], function(){
+      var element = layui.element
+      , laypage = layui.laypage
+      , form = layui.form;
+    });
+  </script>
+{% endblock %}

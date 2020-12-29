@@ -6,7 +6,7 @@
 
 {% block container %}
   <blockquote id="top" class="layui-elem-quote">
-    <a href="{% url 'customer' %}">客户</a>
+    <a href="{% url 'customer_all' %}">所有客户</a>
     &ensp;/&ensp;
     <a href="javascript:;">客户详情</a>
     &ensp;/&ensp;
@@ -20,53 +20,53 @@
     <div class="layui-row layui-col-space10">
       <!--客户基本信息-->
       <div class="layui-col-md6">
-        <form class="layui-form" action="{% url 'customer_detail' pk %}" method="post">
+        <form class="layui-form" action="" method="post">
           {% csrf_token %}
           <blockquote class="layui-elem-quote layui-quote-nm">客户基本信息</blockquote>
           <div class="layui-form-item">
-            <label class="layui-form-label"><span style="color: red">* </span>客户名称</label>
-            <div class="layui-input-block">
+            <label class="layui-form-label">客户名称</label>
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed" style="pointer-events: none; cursor: not-allowed">
               <input type="text" name="name" required lay-verify="required"
                      autocomplete="off" class="layui-input"
                      value="{{ form.name.value|default_if_none:'' }}">
-              {{ form.name.errors }}
             </div>
           </div>
           <div class="layui-form-item">
-            <label class="layui-form-label"><span style="color: red">* </span>客户级别</label>
-            <div class="layui-input-block">
+            <label class="layui-form-label">客户级别</label>
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed" style="pointer-events: none; cursor: not-allowed">
               {{ form.rank }}
-              {{ form.rank.errors }}
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">公司网址</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               <input type="text" name="website"
                      autocomplete="off" class="layui-input"
                      value="{{ form.website.value|default_if_none:'' }}">
-              {{ form.website.errors }}
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">客户规模</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               {{ form.scale }}
-              {{ form.scale.errors }}
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">客户性质</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               {{ form.nature }}
-              {{ form.nature.errors }}
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">客户行业</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               {{ form.industry }}
-              {{ form.industry.errors }}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">创建人</label>
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
+              {{ form.user }}
             </div>
           </div>
           {# 隐藏的表单，用户字段 #}
@@ -76,15 +76,9 @@
           {# 隐藏的表单，用户字段 #}
           <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">备注信息</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               <textarea name="remarks" class="layui-textarea" rows="7"
                         placeholder="请输入内容">{{ form.remarks.value|default_if_none:'' }}</textarea>
-              {{ form.remarks.errors }}
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <div class="layui-input-block">
-              <button class="layui-btn" type="submit">提交更新</button>
             </div>
           </div>
         </form>
@@ -94,7 +88,7 @@
       <!--客户地址信息-->
       <div class="layui-col-md6">
         <!--收货地址-->
-        <form class="layui-form" action="{% url 'address_shop' pk %}" method="post">
+        <form class="layui-form" action="" method="post">
           {% csrf_token %}
           <blockquote class="layui-elem-quote layui-quote-nm">收货地址和发票地址信息</blockquote>
           {# 隐藏的表单，客户名称外键字段 #}
@@ -104,25 +98,23 @@
           {# 隐藏的表单，客户名称外键字段 #}
           <div class="layui-form-item">
             <label class="layui-form-label">收货人</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               <input type="text" name="shop_username"
                      autocomplete="off" class="layui-input"
                      value="{{ shopform.shop_username.value|default_if_none:'' }}">
-              {{ shopform.shop_username.errors }}
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">联系方式</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               <input type="text" name="shop_phone" lay-verify="phone"
                      autocomplete="off" class="layui-input"
                      value="{{ shopform.shop_phone.value|default_if_none:'' }}">
-              {{ shopform.shop_phone.errors }}
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">所在地区</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               <div data-toggle="distpicker" style="display: flex">
                 <div class="form-group">
                   <select class="form-control" lay-filter="shop_province"
@@ -144,22 +136,16 @@
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">详细地址</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               <input type="text" name="shop_address"
                      autocomplete="off" class="layui-input"
                      value="{{ shopform.shop_address.value|default_if_none:'' }}">
-              {{ shopform.shop_address.errors }}
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <div class="layui-input-block">
-              <button class="layui-btn" type="submit">保存地址信息</button>
             </div>
           </div>
         </form>
 
         <!--发票地址-->
-        <form class="layui-form" action="{% url 'address_invoice' pk %}" method="post">
+        <form class="layui-form" action="" method="post">
           {% csrf_token %}
 {#          <blockquote class="layui-elem-quote layui-quote-nm">发票地址信息</blockquote>#}
           {# 隐藏的表单，客户名称外键字段 #}
@@ -169,25 +155,23 @@
           {# 隐藏的表单，客户名称外键字段 #}
           <div class="layui-form-item">
             <label class="layui-form-label">收货人</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               <input type="text" name="invoice_username"
                      autocomplete="off" class="layui-input"
                      value="{{ invoiceform.invoice_username.value|default_if_none:'' }}">
-              {{ invoiceform.invoice_username.errors }}
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">联系方式</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               <input type="text" name="invoice_phone"
                      autocomplete="off" class="layui-input"
                      value="{{ invoiceform.invoice_phone.value|default_if_none:'' }}">
-              {{ invoiceform.invoice_phone.errors }}
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">所在地区</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               <div data-toggle="distpicker" style="display: flex">
                 <div class="form-group">
                   <select class="form-control" lay-filter="invoice_province"
@@ -205,21 +189,14 @@
                           name="invoice_area" id="invoice_area"></select>
                 </div>
               </div>
-              {{ invoiceform.address.errors }}
             </div>
           </div>
           <div class="layui-form-item">
             <label class="layui-form-label">详细地址</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
               <input type="text" name="invoice_address"
                      autocomplete="off" class="layui-input"
                      value="{{ invoiceform.invoice_address.value|default_if_none:'' }}">
-              {{ invoiceform.invoice_address.errors }}
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <div class="layui-input-block">
-              <button class="layui-btn" type="submit">保存地址信息</button>
             </div>
           </div>
         </form>
@@ -228,107 +205,6 @@
     </div>
 
   </div>
-  <hr>
-  <!--客户详情结束-->
-
-  <!-- 联系人信息 -->
-  <div id="3" class="layui-row">
-    <blockquote class="layui-elem-quote layui-quote-nm">客户联系人信息</blockquote>
-    <table class="layui-table">
-      <colgroup>
-        <col>
-        <col>
-        <col>
-        <col>
-      </colgroup>
-      <thead>
-      <tr>
-        <th>联系人姓名</th>
-        <th>联系方式</th>
-        <th>职位</th>
-        <th>是否在职</th>
-      </tr>
-      </thead>
-      <tbody>
-      {% for liaison in liaison_list %}
-        <tr>
-          <td>{{ liaison.name }}</td>
-          <td>{{ liaison.phone }}</td>
-          <td>{{ liaison.get_job_display }}</td>
-          <td>{{ liaison.get_injob_display }}</td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  <hr>
-  <!-- 联系人信息结束 -->
-
-  <!-- 客户拜访记录 -->
-  <div id="4" class="layui-row">
-    <blockquote class="layui-elem-quote layui-quote-nm">客户拜访记录</blockquote>
-    <table class="layui-table">
-      <colgroup>
-        <col>
-        <col>
-        <col>
-        <col>
-      </colgroup>
-      <thead>
-      <tr>
-        <th>拜访时间</th>
-        <th>拜访方式</th>
-        <th>主要事宜</th>
-        <th>后续工作安排</th>
-      </tr>
-      </thead>
-      <tbody>
-      {% for record in record_list %}
-        <tr>
-          <td>{{ record.created_at|date:'Y年m月d日' }}</td>
-          <td>{{ record.status }}</td>
-          <td>{{ record.main|slice:":15" }}......</td>
-          <td>{{ record.next|slice:":15" }}......</td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  <hr>
-  <!-- 客户拜访记录结束 -->
-
-  <!-- 客户商机 -->
-  <div id="2" class="layui-row">
-    <blockquote class="layui-elem-quote layui-quote-nm">客户商机</blockquote>
-
-    <table class="layui-table">
-      <colgroup>
-        <col>
-        <col>
-        <col>
-        <col>
-      </colgroup>
-      <thead>
-      <tr>
-        <th>商机名称</th>
-        <th>赢单率</th>
-        <th>预估金额（万元）</th>
-        <th>备注</th>
-      </tr>
-      </thead>
-      <tbody>
-      {% for business in businesse_list %}
-        <tr>
-          <td>{{ business.name }}</td>
-          <td>{{ business.get_winning_rate_display }}</td>
-          <td>{{ business.money }}</td>
-          <td>{{ business.remarks|default_if_none:'无信息' }}</td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  <!-- 客户商机结束 -->
 {% endblock %}
 
 {% block footer %}
