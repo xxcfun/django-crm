@@ -131,6 +131,4 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-
-# 未登录进行重定向
-LOGIN_URL = '/users/login/'
+SESSION_COOKIE_NAME = 'crm_sessionid'

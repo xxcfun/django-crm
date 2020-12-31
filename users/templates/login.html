@@ -8,14 +8,65 @@
   <link rel="stylesheet" href="{% static 'css/login.css' %}">
   <title>登录·济南控创电子科技有限公司-CRM客户管理信息系统</title>
 </head>
+<style>
+    body {
+        background: radial-gradient(200% 100% at bottom center, #7adef7, #7d8ee9, #343b7d, #1b2947);
+        background: radial-gradient(220% 105% at top center, #1b2947 10%, #343b7d 40%, #7d8ee9 65%, #7adef7);
+        background-attachment: fixed;
+        overflow: hidden;
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+        }
+        100% {
+            transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);
+        }
+    }
+
+    .stars {
+        transform: perspective(500px);
+        transform-style: preserve-3d;
+        position: absolute;
+        bottom: 0;
+        perspective-origin: 50% 100%;
+        left: 50%;
+        animation: rotate 90s infinite linear;
+    }
+
+    .star {
+        width: 2px;
+        height: 2px;
+        background: #F7F7B6;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform-origin: 0 0 -300px;
+        transform: translate3d(0, 0, -300px);
+        backface-visibility: hidden;
+    }
+
+    .img-wrap {
+        height: 100vh;
+        width: 100%;
+        background-size: 100%;
+        opacity: 0.5;
+    }
+</style>
 <body>
-<div class="container">
+<div class="stars"></div>
+<!--背景层，不要删除，不然没有作用-->
+<div class="container" style="z-index: 999999">
   <div class="col">
     <form class="form-login" action="." method="post">
       {% csrf_token %}
       {% if message %}
         <div class="alert alert-warning">{{ message }}</div>
       {% endif %}
+      <div class="text-center">
+        <img src="/static/images/logo.png" alt="">
+      </div>
       <h3 class="text-center">济南控创电子科技有限公司<br>CRM客户管理信息系统</h3>
       <div class="form-group">
         {{ login_form.username.label_tag }}
@@ -29,9 +80,34 @@
     </form>
   </div>
 </div>
+<div class="img-wrap">
+
+</div>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
 <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var stars = 800; /*星星的密集程度，数字越大越多*/
+        var $stars = $(".stars");
+        var r = 800; /*星星的看起来的距离,值越大越远,可自行调制到自己满意的样子*/
+        for (var i = 0; i < stars; i++) {
+            var $star = $("<div/>").addClass("star");
+            console.log($star)
+            $stars.append($star);
+        }
+        $(".star").each(function () {
+            var cur = $(this);
+            var s = 0.2 + (Math.random() * 1);
+            var curR = r + (Math.random() * 300);
+            cur.css({
+                transformOrigin: "0 0 " + curR + "px",
+                transform: " translate3d(0,0,-" + curR + "px) rotateY(" + (Math.random() * 360) + "deg) rotateX(" + (Math.random() * -50) + "deg) scale(" + s + "," + s + ")"
+
+            })
+        })
+    })
+</script>
 </body>
 </html>
 
