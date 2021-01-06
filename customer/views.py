@@ -4,8 +4,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
+from business.models import Business
 from customer.forms import CustomerForm, CustomerShopForm, CustomerInvoiceForm
 from customer.models import Customer, CustomerShop, CustomerInvoice
+from liaison.models import Liaison
+from record.models import Record
 from users.models import User
 
 
@@ -68,11 +71,19 @@ def customer_detail(request, pk):
     except CustomerInvoice.DoesNotExist:
         invoiceform = CustomerInvoiceForm()
 
+    # 添加联系人，商机，拜访记录信息
+    liaisons = Liaison.objects.filter(customer_id=pk, is_valid=True)
+    records = Record.objects.filter(customer_id=pk, is_valid=True)
+    businesses = Business.objects.filter(customer_id=pk, is_valid=True)
+
     return render(request, 'customer_detail.html', {
         'form': form,
         'pk': pk,
         'shopform': shopform,
-        'invoiceform': invoiceform
+        'invoiceform': invoiceform,
+        'liaisons': liaisons,
+        'records': records,
+        'businesses': businesses
     })
 
 
@@ -165,11 +176,20 @@ def customer_all_detail(request, pk):
         invoiceform = CustomerInvoiceForm(instance=customer_invoice)
     except CustomerInvoice.DoesNotExist:
         invoiceform = CustomerInvoiceForm()
+
+    # 添加联系人，商机，拜访记录信息
+    liaisons = Liaison.objects.filter(customer_id=pk, is_valid=True)
+    records = Record.objects.filter(customer_id=pk, is_valid=True)
+    businesses = Business.objects.filter(customer_id=pk, is_valid=True)
+
     return render(request, 'customer_all_detail.html', {
         'form': form,
         'pk': pk,
         'shopform': shopform,
-        'invoiceform': invoiceform
+        'invoiceform': invoiceform,
+        'liaisons': liaisons,
+        'records': records,
+        'businesses': businesses
     })
 
 

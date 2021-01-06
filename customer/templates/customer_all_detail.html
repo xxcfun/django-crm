@@ -203,8 +203,117 @@
       </div>
       <!--客户地址信息结束-->
     </div>
-
   </div>
+  <hr>
+  <!--客户详情结束-->
+
+  <!-- 联系人信息 -->
+  <div id="3" class="layui-row">
+    <blockquote class="layui-elem-quote layui-quote-nm">客户联系人信息</blockquote>
+    <table class="layui-table">
+      <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
+      </colgroup>
+      <thead>
+      <tr>
+        <th>联系人姓名</th>
+        <th>联系方式</th>
+        <th>职位</th>
+        <th>是否在职</th>
+        <th>创建时间</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for liaison in liaisons %}
+        <tr>
+          <td>{{ liaison.name }}</td>
+          <td>{{ liaison.phone }}</td>
+          <td>{{ liaison.get_job_display }}</td>
+          <td>{{ liaison.get_injob_display }}</td>
+          <td>{{ liaison.created_at }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <hr>
+  <!-- 联系人信息结束 -->
+
+  <!-- 客户拜访记录 -->
+  <div id="4" class="layui-row">
+    <blockquote class="layui-elem-quote layui-quote-nm">客户拜访记录</blockquote>
+    <table class="layui-table">
+      <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
+      </colgroup>
+      <thead>
+      <tr>
+        <th>拜访主题</th>
+        <th>拜访方式</th>
+        <th>主要事宜</th>
+        <th>后续工作安排</th>
+        <th>拜访时间</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for record in records %}
+        <tr>
+          <td>{{ record.theme }}</td>
+          <td>{{ record.status }}</td>
+          <td>{{ record.main }}</td>
+          <td>{{ record.next }}</td>
+          <td>{{ record.created_at|date:'Y年m月d日' }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <hr>
+  <!-- 客户拜访记录结束 -->
+
+  <!-- 客户商机 -->
+  <div id="2" class="layui-row">
+    <blockquote class="layui-elem-quote layui-quote-nm">客户商机</blockquote>
+
+    <table class="layui-table">
+      <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
+      </colgroup>
+      <thead>
+      <tr>
+        <th>商机名称</th>
+        <th>赢单率</th>
+        <th>预估金额</th>
+        <th>备注</th>
+        <th>创建时间</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for business in businesses %}
+        <tr>
+          <td>{{ business.name }}</td>
+          <td>{{ business.get_winning_rate_display }}</td>
+          <td>{{ business.money }}</td>
+          <td>{{ business.remarks|default_if_none:'无信息' }}</td>
+          <td>{{ business.created_at }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <!-- 客户商机结束 -->
 {% endblock %}
 
 {% block footer %}
