@@ -1,4 +1,6 @@
+import xlwt
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -123,3 +125,34 @@ def record_all_detail(request, pk):
     return render(request, 'record_all_detail.html', {
         'form': form,
     })
+
+
+def export_record(request):
+    """导出所有拜访记录信息"""
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="record.xls"'
+    # 创建一个workbook，设置编码
+    wb = xlwt.Workbook(encoding='utf-8')
+    # 创建一个worksheet，对应excel中的sheet，表名称
+    ws = wb.add_sheet('record')
+    row_num = 0
+    # 初始化样式
+    font_style = xlwt.XFStyle()
+    # 黑体
+    font_style.font.bold = True
+    # 写表头
+    columns = ['拜访主题', '客户名称', '拜访方式', '主要事宜', '后续工作', '备注信息', '业务负责人', '创建时间']
+    for col_num in range(len(columns)):
+        # 参数解读：（行，列，值，样式），row行 col列
+        ws.write(row_num, col_num, columns[col_num], font_style)
+    # 写表格内容
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = False
+    rows = Record.objects.filter(is_valid=True).values_list('theme', 'customer__name', 'status', 'main', 'next', 'remarks', 'user__name', 'created_at')
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+    # 保存
+    wb.save(response)
+    return response

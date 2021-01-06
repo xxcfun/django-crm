@@ -18,5 +18,8 @@ urlpatterns = [
     # 所有拜访记录列表
     path('all/', views.record_all, name='record_all'),
     # 客户详情
-    path('all/detail/<int:pk>', views.record_all_detail, name='record_all_detail')
+    path('all/detail/<int:pk>', views.record_all_detail, name='record_all_detail'),
+
+    # 导出所有拜访记录信息
+    path('export/record', views.export_record, name='export_record'),
 ]
