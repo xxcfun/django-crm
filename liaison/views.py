@@ -1,4 +1,6 @@
+import xlwt
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 
@@ -121,3 +123,34 @@ def liaison_all_detail(request, pk):
     return render(request, 'liaison_all_detail.html', {
         'form': form,
     })
+
+
+def export_liaison(request):
+    """导出所有联系人信息"""
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="liaison.xls"'
+    # 创建一个workbook，设置编码
+    wb = xlwt.Workbook(encoding='utf-8')
+    # 创建一个worksheet，对应excel中的sheet，表名称
+    ws = wb.add_sheet('liaison')
+    row_num = 0
+    # 初始化样式
+    font_style = xlwt.XFStyle()
+    # 黑体
+    font_style.font.bold = True
+    # 写表头
+    columns = ['联系人姓名', '客户名称', '联系方式', '职位', '是否在职', '微信', 'QQ', '电子邮箱', '兴趣爱好', '生日', '创建人', '备注信息', '创建时间']
+    for col_num in range(len(columns)):
+        # 参数解读：（行，列，值，样式），row行 col列
+        ws.write(row_num, col_num, columns[col_num], font_style)
+    # 写表格内容
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = False
+    rows = Liaison.objects.filter(is_valid=True).values_list('name', 'customer__name', 'phone', 'job', 'injob', 'wx', 'qq', 'email', 'hobby', 'birthday', 'user__name', 'remarks', 'created_at')
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+    # 保存
+    wb.save(response)
+    return response

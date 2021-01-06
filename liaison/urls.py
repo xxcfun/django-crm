@@ -18,5 +18,8 @@ urlpatterns = [
     # 所有联系人列表
     path('all/', views.liaison_all, name='liaison_all'),
     # 客户详情
-    path('all/detail/<int:pk>', views.liaison_all_detail, name='liaison_all_detail')
+    path('all/detail/<int:pk>', views.liaison_all_detail, name='liaison_all_detail'),
+
+    # 导出所有联系人信息
+    path('export/liaison', views.export_liaison, name='export_liaison'),
 ]
