@@ -1,4 +1,6 @@
+import xlwt
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
@@ -169,3 +171,86 @@ def customer_all_detail(request, pk):
         'shopform': shopform,
         'invoiceform': invoiceform
     })
+
+
+def export_customer(request):
+    """导出所有客户信息"""
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="customer.xls"'
+    # 创建一个workbook，设置编码
+    wb = xlwt.Workbook(encoding='utf-8')
+    # 创建一个worksheet，对应excel中的sheet，表名称
+    ws = wb.add_sheet('customer')
+    row_num = 0
+    # 初始化样式
+    font_style = xlwt.XFStyle()
+    # 黑体
+    font_style.font.bold = True
+    # 写表头
+    columns = ['客户名称', '级别', '网址', '规模', '性质', '行业', '备注信息', '业务负责人', '创建时间']
+    for col_num in range(len(columns)):
+        # 参数解读：（行，列，值，样式），row行 col列
+        ws.write(row_num, col_num, columns[col_num], font_style)
+    # 写表格内容
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = False
+    rows = Customer.objects.filter(is_valid=True).values_list('name', 'rank', 'website', 'scale', 'nature', 'industry', 'remarks', 'user__name', 'created_at')
+    for row in rows:
+        # # 目前这些有问题，会报元组错误
+        # # rank
+        # if row[1] == 1:
+        #     row[1] = '重点客户'
+        # elif row[1] == 2:
+        #     row[1] = '一般客户'
+        # elif row[1] == 3:
+        #     row[1] = '普通客户'
+        # # scale
+        # if row[3] == 1:
+        #     row[3] = '0~10人'
+        # elif row[3] == 2:
+        #     row[3] = '10~50人'
+        # elif row[3] == 3:
+        #     row[3] = '50~100人'
+        # elif row[3] == 4:
+        #     row[3] = '100~1000人'
+        # elif row[3] == 5:
+        #     row[3] = '1000人及以上'
+        # # nature
+        # if row[4] == 1:
+        #     row[4] = '有限责任公司'
+        # elif row[4] == 2:
+        #     row[4] = '股份有限公司'
+        # elif row[4] == 3:
+        #     row[4] = '国有企业'
+        # elif row[4] == 4:
+        #     row[4] = '集体企业'
+        # elif row[4] == 5:
+        #     row[4] = '私营企业'
+        # elif row[4] == 6:
+        #     row[4] = '个体工商户'
+        # elif row[4] == 7:
+        #     row[4] = '合伙企业'
+        # elif row[4] == 8:
+        #     row[4] = '联营企业'
+        # elif row[4] == 9:
+        #     row[4] = '股份合作制企业'
+        # # industry
+        # if row[5] == 1:
+        #     row[5] = '机台设备制造商'
+        # elif row[5] == 2:
+        #     row[5] = '生产制造型企业'
+        # elif row[5] == 3:
+        #     row[5] = '系统集成商'
+        # elif row[5] == 4:
+        #     row[5] = '分销商'
+        # elif row[5] == 5:
+        #     row[5] = '其它'
+        # # user
+        # row[7] = user_name
+        # 下面开始写表格内容
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+    # 保存
+    wb.save(response)
+    return response

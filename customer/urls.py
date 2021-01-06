@@ -24,5 +24,8 @@ urlpatterns = [
     # 所有客户列表
     path('all/', views.customer_all, name='customer_all'),
     # 客户详情
-    path('all/detail/<int:pk>', views.customer_all_detail, name='customer_all_detail')
+    path('all/detail/<int:pk>', views.customer_all_detail, name='customer_all_detail'),
+
+    # 导出所有客户信息
+    path('export/customer', views.export_customer, name='export_customer'),
 ]
