@@ -18,5 +18,8 @@ urlpatterns = [
     # 所有商机列表
     path('all/', views.business_all, name='business_all'),
     # 客户详情
-    path('all/detail/<int:pk>', views.business_all_detail, name='business_all_detail')
+    path('all/detail/<int:pk>', views.business_all_detail, name='business_all_detail'),
+
+    # 导出所有商机信息
+    path('export/business', views.export_business, name='export_business'),
 ]

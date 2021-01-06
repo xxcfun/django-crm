@@ -1,4 +1,6 @@
+import xlwt
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -123,3 +125,34 @@ def business_all_detail(request, pk):
     return render(request, 'business_all_detail.html', {
         'form': form,
     })
+
+
+def export_business(request):
+    """导出所有商机信息"""
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="business.xls"'
+    # 创建一个workbook，设置编码
+    wb = xlwt.Workbook(encoding='utf-8')
+    # 创建一个worksheet，对应excel中的sheet，表名称
+    ws = wb.add_sheet('business')
+    row_num = 0
+    # 初始化样式
+    font_style = xlwt.XFStyle()
+    # 黑体
+    font_style.font.bold = True
+    # 写表头
+    columns = ['商机名称', '客户名称', '赢单率', '预估金额', '创建人', '备注信息', '创建时间']
+    for col_num in range(len(columns)):
+        # 参数解读：（行，列，值，样式），row行 col列
+        ws.write(row_num, col_num, columns[col_num], font_style)
+    # 写表格内容
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = False
+    rows = Business.objects.filter(is_valid=True).values_list('name', 'customer__name', 'winning_rate', 'money', 'user__name', 'remarks', 'created_at')
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+    # 保存
+    wb.save(response)
+    return response
