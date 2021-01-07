@@ -233,7 +233,10 @@
 
   <!-- 联系人信息 -->
   <div id="3" class="layui-row">
-    <blockquote class="layui-elem-quote layui-quote-nm">客户联系人信息</blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">
+      客户联系人信息
+      <a class="layui-btn layui-btn-normal" href="{% url 'customer_add_liaison' pk %}" style="margin-left: 20px">新增联系人</a>
+    </blockquote>
     <table class="layui-table">
       <colgroup>
         <col>
@@ -241,6 +244,7 @@
         <col>
         <col>
         <col>
+        <col width="10%">
       </colgroup>
       <thead>
       <tr>
@@ -249,16 +253,26 @@
         <th>职位</th>
         <th>是否在职</th>
         <th>创建时间</th>
+        <th>操作</th>
       </tr>
       </thead>
       <tbody>
       {% for liaison in liaisons %}
         <tr>
-          <td>{{ liaison.name }}</td>
+          <td>
+            <a style="color: #01AAED" href="{% url 'customer_detail_liaison' liaison.id %}">{{ liaison.name }}</a>
+          </td>
           <td>{{ liaison.phone }}</td>
           <td>{{ liaison.get_job_display }}</td>
           <td>{{ liaison.get_injob_display }}</td>
-          <td>{{ liaison.created_at }}</td>
+          <td>{{ liaison.created_at }}
+          <td>
+            <div class="layui-btn-group">
+              <a class="layui-btn layui-btn-sm layui-btn-normal" href="{% url 'customer_edit_liaison' liaison.id %}">编辑</a>
+              <a class="layui-btn layui-btn-sm layui-btn-danger"
+                 onclick="return deleteLia();" href="{% url 'customer_delete_liaison' liaison.id %}">删除</a>
+            </div>
+          </td>
         </tr>
       {% endfor %}
       </tbody>
@@ -269,7 +283,10 @@
 
   <!-- 客户拜访记录 -->
   <div id="4" class="layui-row">
-    <blockquote class="layui-elem-quote layui-quote-nm">客户拜访记录</blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">
+      客户拜访记录
+      <a class="layui-btn layui-btn-normal" href="{% url 'customer_add_record' pk %}" style="margin-left: 20px">新增拜访记录</a>
+    </blockquote>
     <table class="layui-table">
       <colgroup>
         <col>
@@ -277,6 +294,7 @@
         <col>
         <col>
         <col>
+        <col width="10%">
       </colgroup>
       <thead>
       <tr>
@@ -285,16 +303,26 @@
         <th>主要事宜</th>
         <th>后续工作安排</th>
         <th>拜访时间</th>
+        <th>操作</th>
       </tr>
       </thead>
       <tbody>
       {% for record in records %}
         <tr>
-          <td>{{ record.theme }}</td>
-          <td>{{ record.status }}</td>
+          <td>
+            <a style="color: #01AAED" href="{% url 'customer_detail_record' record.id %}">{{ record.theme }}</a>
+          </td>
+          <td>{{ record.get_status_display }}</td>
           <td>{{ record.main }}</td>
           <td>{{ record.next }}</td>
           <td>{{ record.created_at|date:'Y年m月d日' }}</td>
+          <td>
+            <div class="layui-btn-group">
+              <a class="layui-btn layui-btn-sm layui-btn-normal" href="{% url 'customer_edit_record' record.id %}">编辑</a>
+              <a class="layui-btn layui-btn-sm layui-btn-danger"
+                 onclick="return deleteRec();" href="{% url 'customer_delete_record' record.id %}">删除</a>
+            </div>
+          </td>
         </tr>
       {% endfor %}
       </tbody>
@@ -305,7 +333,10 @@
 
   <!-- 客户商机 -->
   <div id="2" class="layui-row">
-    <blockquote class="layui-elem-quote layui-quote-nm">客户商机</blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">
+      客户商机
+      <a class="layui-btn layui-btn-normal" href="{% url 'customer_add_business' pk %}" style="margin-left: 20px">新增商机</a>
+    </blockquote>
 
     <table class="layui-table">
       <colgroup>
@@ -314,6 +345,7 @@
         <col>
         <col>
         <col>
+        <col width="10%">
       </colgroup>
       <thead>
       <tr>
@@ -322,16 +354,26 @@
         <th>预估金额</th>
         <th>备注</th>
         <th>创建时间</th>
+        <th>操作</th>
       </tr>
       </thead>
       <tbody>
       {% for business in businesses %}
         <tr>
-          <td>{{ business.name }}</td>
+          <td>
+            <a style="color: #01AAED" href="{% url 'customer_detail_business' business.id %}">{{ business.name }}</a>
+          </td>
           <td>{{ business.get_winning_rate_display }}</td>
           <td>{{ business.money }}</td>
           <td>{{ business.remarks|default_if_none:'无信息' }}</td>
           <td>{{ business.created_at }}</td>
+          <td>
+            <div class="layui-btn-group">
+              <a class="layui-btn layui-btn-sm layui-btn-normal" href="{% url 'customer_edit_business' business.id %}">编辑</a>
+              <a class="layui-btn layui-btn-sm layui-btn-danger"
+                 onclick="return deleteBus();" href="{% url 'customer_delete_business' business.id %}">删除</a>
+            </div>
+          </td>
         </tr>
       {% endfor %}
       </tbody>
@@ -379,5 +421,30 @@
               form.render();
           })
       });
+  </script>
+  <script type="text/javascript" language="JavaScript">
+      function deleteLia() {
+          if (confirm("确定要删除吗？")) {
+              return true;
+          } else {
+              return false;
+          }
+      }
+
+      function deleteRec() {
+          if (confirm("确定要删除吗？")) {
+              return true;
+          } else {
+              return false;
+          }
+      }
+
+      function deleteBus() {
+          if (confirm("确定要删除吗？")) {
+              return true;
+          } else {
+              return false;
+          }
+      }
   </script>
 {% endblock %}

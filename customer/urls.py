@@ -28,4 +28,33 @@ urlpatterns = [
 
     # 导出所有客户信息
     path('export/customer', views.export_customer, name='export_customer'),
+
+    # 下面全都是在客户详情里面的操作
+    # 客户详情页添加联系人
+    path('detail/<int:pk>/add/liaison', views.customer_add_liaison, name='customer_add_liaison'),
+    # 客户详情页添加拜访记录
+    path('detail/<int:pk>/add/record', views.customer_add_record, name='customer_add_record'),
+    # 客户详情页添加商机
+    path('detail/<int:pk>/add/business', views.customer_add_business, name='customer_add_business'),
+
+    # 客户详情页修改联系人
+    path('detail/<int:pk>/edit/liaison', views.customer_edit_liaison, name='customer_edit_liaison'),
+    # 客户详情页修改拜访记录
+    path('detail/<int:pk>/edit/record', views.customer_edit_record, name='customer_edit_record'),
+    # 客户详情页修改商机
+    path('detail/<int:pk>/edit/business', views.customer_edit_business, name='customer_edit_business'),
+
+    # 客户详情页删除联系人
+    path('detail/<int:pk>/delete/liaison', views.customer_delete_liaison, name='customer_delete_liaison'),
+    # 客户详情页删除拜访记录
+    path('detail/<int:pk>/delete/record', views.customer_delete_record, name='customer_delete_record'),
+    # 客户详情页删除商机
+    path('detail/<int:pk>/delete/business', views.customer_delete_business, name='customer_delete_business'),
+
+    # 客户详情页查看联系人
+    path('detail/<int:pk>/detail/liaison', views.customer_detail_liaison, name='customer_detail_liaison'),
+    # 客户详情页查看拜访记录
+    path('detail/<int:pk>/detail/record', views.customer_detail_record, name='customer_detail_record'),
+    # 客户详情页查看商机
+    path('detail/<int:pk>/detail/business', views.customer_detail_business, name='customer_detail_business'),
 ]

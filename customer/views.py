@@ -4,10 +4,13 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
+from business.forms import BusinessForm
 from business.models import Business
 from customer.forms import CustomerForm, CustomerShopForm, CustomerInvoiceForm
 from customer.models import Customer, CustomerShop, CustomerInvoice
+from liaison.forms import LiaisonForm
 from liaison.models import Liaison
+from record.forms import RecordForm
 from record.models import Record
 from users.models import User
 
@@ -274,3 +277,174 @@ def export_customer(request):
     # 保存
     wb.save(response)
     return response
+
+
+def customer_add_liaison(request, pk):
+    """客户详情里添加联系人"""
+    customer = get_object_or_404(Customer, pk=pk, is_valid=True)
+    if request.method == 'POST':
+        form = LiaisonForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_detail', pk)
+        else:
+            print(form.errors.as_json)
+    else:
+        form = LiaisonForm()
+    return render(request, 'customer_add_liaison.html', {
+        'form': form,
+        'customer': customer,
+        'pk': pk,
+    })
+
+
+def customer_add_record(request, pk):
+    """客户详情里添加拜访记录"""
+    customer = get_object_or_404(Customer, pk=pk, is_valid=True)
+    if request.method == 'POST':
+        form = RecordForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_detail', pk)
+        else:
+            print(form.errors.as_json)
+    else:
+        form = RecordForm()
+    return render(request, 'customer_add_record.html', {
+        'form': form,
+        'customer': customer,
+        'pk': pk,
+    })
+
+
+def customer_add_business(request, pk):
+    """客户详情里添加商机"""
+    customer = get_object_or_404(Customer, pk=pk, is_valid=True)
+    if request.method == 'POST':
+        form = BusinessForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_detail', pk)
+        else:
+            print(form.errors.as_json)
+    else:
+        form = BusinessForm()
+    return render(request, 'customer_add_business.html', {
+        'form': form,
+        'customer': customer,
+        'pk': pk,
+    })
+
+
+def customer_edit_liaison(request, pk):
+    """客户详情里修改联系人"""
+    user = request.session.get('user_id')
+    liaison = get_object_or_404(Liaison, pk=pk, user=user, is_valid=True)
+    if request.method == 'POST':
+        form = LiaisonForm(data=request.POST, instance=liaison)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_detail', liaison.customer.pk)
+        else:
+            print(form.errors.as_json)
+    else:
+        form = LiaisonForm(instance=liaison)
+    return render(request, 'customer_edit_liaison.html', {
+        'form': form,
+        'liaison': liaison,
+        'pk': pk,
+    })
+
+
+def customer_edit_record(request, pk):
+    """客户详情里修改拜访记录"""
+    user = request.session.get('user_id')
+    record = get_object_or_404(Record, pk=pk, user=user, is_valid=True)
+    if request.method == 'POST':
+        form = RecordForm(data=request.POST, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_detail', record.customer.pk)
+        else:
+            print(form.errors.as_json)
+    else:
+        form = RecordForm(instance=record)
+    return render(request, 'customer_edit_record.html', {
+        'form': form,
+        'record': record,
+        'pk': pk,
+    })
+
+
+def customer_edit_business(request, pk):
+    """客户详情里修改商机"""
+    user = request.session.get('user_id')
+    business = get_object_or_404(Business, pk=pk, user=user, is_valid=True)
+    if request.method == 'POST':
+        form = BusinessForm(data=request.POST, instance=business)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_detail', business.customer.pk)
+        else:
+            print(form.errors.as_json)
+    else:
+        form = BusinessForm(instance=business)
+    return render(request, 'customer_edit_business.html', {
+        'form': form,
+        'business': business,
+        'pk': pk,
+    })
+
+
+def customer_delete_liaison(request, pk):
+    """客户详情里删除联系人"""
+    user = request.session.get('user_id')
+    liaison = get_object_or_404(Liaison, pk=pk, user=user, is_valid=True)
+    liaison.delete()
+    return redirect('customer_detail', liaison.customer.pk)
+
+
+def customer_delete_record(request, pk):
+    """客户详情里删除拜访记录"""
+    user = request.session.get('user_id')
+    record = get_object_or_404(Record, pk=pk, user=user, is_valid=True)
+    record.delete()
+    return redirect('customer_detail', record.customer.pk)
+
+
+def customer_delete_business(request, pk):
+    """客户详情里删除商机"""
+    user = request.session.get('user_id')
+    business = get_object_or_404(Business, pk=pk, user=user, is_valid=True)
+    business.delete()
+    return redirect('customer_detail', business.customer.pk)
+
+
+def customer_detail_liaison(request, pk):
+    """客户详情里查看联系人"""
+    liaison = get_object_or_404(Liaison, pk=pk, is_valid=True)
+    form = LiaisonForm(instance=liaison)
+    return render(request, 'customer_detail_liaison.html', {
+        'form': form,
+        'liaison': liaison
+    })
+
+
+def customer_detail_record(request, pk):
+    """客户详情里查看拜访记录"""
+    record = get_object_or_404(Record, pk=pk, is_valid=True)
+    form = RecordForm(instance=record)
+    return render(request, 'customer_detail_record.html', {
+        'form': form,
+        'record': record
+    })
+
+
+def customer_detail_business(request, pk):
+    """客户详情里查看商机"""
+    business = get_object_or_404(Business, pk=pk, is_valid=True)
+    form = BusinessForm(instance=business)
+    return render(request, 'customer_detail_business.html', {
+        'form': form,
+        'business': business
+    })

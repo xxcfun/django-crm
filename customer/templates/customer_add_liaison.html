@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>{{ customer.name }}--添加联系人</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote class="layui-elem-quote">
+    <a href="{% url 'customer_detail' pk %}">{{ customer.name }}</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">添加联系人</a>
+  </blockquote>
+
+  <hr class="layui-bg-green">
+
+  <!--联系人信息详情-->
+  <div id="1" class="layui-row">
+    <!--联系人基本信息-->
+    <form class="layui-form layui-col-md6" action="{% url 'customer_add_liaison' pk %}" method="post">
+      {% csrf_token %}
+      <blockquote class="layui-elem-quote layui-quote-nm">联系人基本信息</blockquote>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">* </span>联系人姓名</label>
+        <div class="layui-input-block">
+          <input type="text" name="name" required lay-verify="required"
+                 autocomplete="off" class="layui-input"
+                 value="{{ form.name.value|default_if_none:'' }}">
+          {{ form.name.errors }}
+        </div>
+      </div>
+      {# 隐藏表单，传客户名 #}
+      <input type="hidden" name="customer" required lay-verify="required"
+             autocomplete="off" class="layui-input"
+             value="{{ pk }}">
+      {# 隐藏表单，传客户名 #}
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">* </span>联系方式</label>
+        <div class="layui-input-block">
+          <input type="text" name="phone" lay-verify="phone"
+                 autocomplete="off" class="layui-input"
+                 value="{{ form.phone.value|default_if_none:'' }}">
+          {{ form.phone.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">*  </span>职位</label>
+        <div class="layui-input-block">
+          {{ form.job }}
+          {{ form.job.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">* </span>是否在职</label>
+        <div class="layui-input-block">
+          {{ form.injob }}
+          {{ form.injob.errors }}
+        </div>
+      </div>
+      <!--详细信息-->
+      <div class="layui-form-item">
+        <label class="layui-form-label">微信</label>
+        <div class="layui-input-block">
+          <input type="text" name="wx"
+                 autocomplete="off" class="layui-input"
+                 value="{{ form.wx.value|default_if_none:'' }}">
+          {{ form.wx.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">QQ</label>
+        <div class="layui-input-block">
+          <input type="text" name="qq"
+                 autocomplete="off" class="layui-input"
+                 value="{{ form.qq.value|default_if_none:'' }}">
+          {{ form.qq.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">电子邮箱</label>
+        <div class="layui-input-block">
+          <input type="text" name="email"
+                 autocomplete="off" class="layui-input"
+                 value="{{ form.email.value|default_if_none:'' }}">
+          {{ form.email.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">兴趣爱好</label>
+        <div class="layui-input-block">
+          <input type="text" name="hobby"
+                 autocomplete="off" class="layui-input"
+                 value="{{ form.hobby.value|default_if_none:'' }}">
+          {{ form.hobby.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">生日</label>
+        <div class="layui-input-block">
+          <input type="text" name="birthday"
+                 autocomplete="off" class="layui-input" id="birthday"
+                 value="{{ form.birthday.value|default_if_none:'' }}">
+          {{ form.birthday.errors }}
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+          <textarea name="remarks" class="layui-textarea"
+                    placeholder="请输入内容">{{ form.remarks.value|default_if_none:'' }}</textarea>
+          {{ form.remarks.errors }}
+        </div>
+      </div>
+      {# 隐藏的表单，用户字段 #}
+      <input type="hidden" name="user"
+             autocomplete="off" class="layui-input"
+             value="{{ request.session.user_id }}">
+      {# 隐藏的表单，用户字段 #}
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="formDemo" type="submit">添加</button>
+        </div>
+      </div>
+    </form>
+    <!--联系人基本信息结束-->
+  </div>
+  <hr>
+  <!--联系人信息详情结束-->
+
+{% endblock %}
+
+{% block footer %}
+  <script>
+      //JavaScript代码区域
+      layui.use(['element', 'form', 'laydate'], function () {
+          var element = layui.element
+              , form = layui.form
+              , laydate = layui.laydate;
+          laydate.render({
+              elem: '#birthday'
+          })
+      });
+  </script>
+{% endblock %}

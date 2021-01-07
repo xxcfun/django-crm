@@ -209,7 +209,9 @@
 
   <!-- 联系人信息 -->
   <div id="3" class="layui-row">
-    <blockquote class="layui-elem-quote layui-quote-nm">客户联系人信息</blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">
+      客户联系人信息
+    </blockquote>
     <table class="layui-table">
       <colgroup>
         <col>
@@ -230,11 +232,13 @@
       <tbody>
       {% for liaison in liaisons %}
         <tr>
-          <td>{{ liaison.name }}</td>
+          <td>
+            {{ liaison.name }}
+          </td>
           <td>{{ liaison.phone }}</td>
           <td>{{ liaison.get_job_display }}</td>
           <td>{{ liaison.get_injob_display }}</td>
-          <td>{{ liaison.created_at }}</td>
+          <td>{{ liaison.created_at }}
         </tr>
       {% endfor %}
       </tbody>
@@ -245,7 +249,9 @@
 
   <!-- 客户拜访记录 -->
   <div id="4" class="layui-row">
-    <blockquote class="layui-elem-quote layui-quote-nm">客户拜访记录</blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">
+      客户拜访记录
+    </blockquote>
     <table class="layui-table">
       <colgroup>
         <col>
@@ -266,8 +272,10 @@
       <tbody>
       {% for record in records %}
         <tr>
-          <td>{{ record.theme }}</td>
-          <td>{{ record.status }}</td>
+          <td>
+            {{ record.theme }}
+          </td>
+          <td>{{ record.get_status_display }}</td>
           <td>{{ record.main }}</td>
           <td>{{ record.next }}</td>
           <td>{{ record.created_at|date:'Y年m月d日' }}</td>
@@ -281,7 +289,9 @@
 
   <!-- 客户商机 -->
   <div id="2" class="layui-row">
-    <blockquote class="layui-elem-quote layui-quote-nm">客户商机</blockquote>
+    <blockquote class="layui-elem-quote layui-quote-nm">
+      客户商机
+    </blockquote>
 
     <table class="layui-table">
       <colgroup>
@@ -303,7 +313,9 @@
       <tbody>
       {% for business in businesses %}
         <tr>
-          <td>{{ business.name }}</td>
+          <td>
+            {{ business.name }}
+          </td>
           <td>{{ business.get_winning_rate_display }}</td>
           <td>{{ business.money }}</td>
           <td>{{ business.remarks|default_if_none:'无信息' }}</td>

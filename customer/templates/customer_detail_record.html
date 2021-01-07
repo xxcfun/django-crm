@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>{{ record.customer.name }}--拜访记录详情</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote id="top" class="layui-elem-quote">
+    <a href="{% url 'customer_detail' record.customer.pk %}">{{ record.customer.name }}</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">拜访记录详情</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">{{ form.theme.value }}</a>
+  </blockquote>
+
+  <hr class="layui-bg-green">
+
+  <!--客户商机详情-->
+  <div id="1" class="layui-row">
+    <!--客户基本信息-->
+    <form class="layui-form layui-col-md6" action="" method="post">
+      {% csrf_token %}
+      <blockquote class="layui-elem-quote layui-quote-nm">拜访记录详情</blockquote>
+      <div class="layui-form-item">
+        <label class="layui-form-label">拜访主题</label>
+        <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
+          <input type="text" name="theme" required autocomplete="off"
+                 class="layui-input" value="{{ form.theme.value|default_if_none:'' }}">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">客户名称</label>
+        <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
+          {{ form.customer }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">拜访方式</label>
+        <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
+          {{ form.status }}
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">主要事宜</label>
+        <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
+          <textarea name="main" class="layui-textarea"
+                    placeholder="请输入内容">{{ form.main.value }}</textarea>
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">后续工作</label>
+        <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
+          <textarea name="next" class="layui-textarea"
+                    placeholder="请输入内容">{{ form.next.value }}</textarea>
+        </div>
+      </div>
+      <div class="layui-form-item" style="pointer-events: none; cursor: not-allowed">
+        <label class="layui-form-label">创建人</label>
+        <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
+          {{ form.user }}
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block" style="pointer-events: none; cursor: not-allowed">
+          <textarea name="remarks" class="layui-textarea"
+                    placeholder="请输入内容">{{ form.remarks.value|default_if_none:'' }}</textarea>
+        </div>
+      </div>
+      {# 隐藏的表单，用户字段 #}
+      <input type="hidden" name="user"
+             autocomplete="off" class="layui-input"
+             value="{{ request.session.user_id }}">
+      {# 隐藏的表单，用户字段 #}
+    </form>
+    <!--客户基本信息结束-->
+  </div>
+  <hr>
+  <!--客户商机详情结束-->
+{% endblock %}
+
+{% block footer %}
+  <script>
+      //JavaScript代码区域
+      layui.use(['element', 'form', 'jquery'], function () {
+          var element = layui.element
+              , form = layui.form
+              , $ = layui.$;
+
+          $(function () {
+              $("#customer input").attr("disabled", true);
+          })
+      });
+  </script>
+{% endblock %}

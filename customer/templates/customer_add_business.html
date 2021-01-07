@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>{{ customer.name }}--添加商机</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote class="layui-elem-quote">
+    <a href="{% url 'customer_detail' pk %}">{{ customer.name }}</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">添加商机</a>
+  </blockquote>
+
+  <hr class="layui-bg-green">
+
+  <!--客户商机详情-->
+  <div id="1" class="layui-row layui-col-space10">
+    <!--客户商机基本信息-->
+    <form class="layui-form layui-col-md6" action="{% url 'customer_add_business' pk %}" method="post">
+      {% csrf_token %}
+      {# 商机详情 #}
+      <div>
+        <blockquote class="layui-elem-quote layui-quote-nm">客户商机详情</blockquote>
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span style="color: red">* </span>商机名称</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" required lay-verify="required"
+                   autocomplete="off" class="layui-input" value="">
+            {{ form.name.errors }}
+          </div>
+        </div>
+        {# 隐藏表单，传客户名 #}
+        <input type="hidden" name="customer" required lay-verify="required"
+               autocomplete="off" class="layui-input"
+               value="{{ pk }}">
+        {# 隐藏表单，传客户名 #}
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span style="color: red">* </span>赢单率</label>
+          <div class="layui-input-block">
+            {{ form.winning_rate }}
+            {{ form.winning_rate.errors }}
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">预估金额</label>
+          <div class="layui-input-block">
+            <input type="text" name="money" autocomplete="off" class="layui-input"
+                   placeholder="填写规范（1,000,000,000.00）"
+                   value="{{ form.money.value|default_if_none:'' }}">
+            {{ form.money.errors }}
+          </div>
+
+        </div>
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">备注信息</label>
+          <div class="layui-input-block">
+            <textarea name="remarks" class="layui-textarea"
+                      placeholder="请输入内容">{{ form.remarks.value|default_if_none:'' }}</textarea>
+            {{ form.remarks.errors }}
+          </div>
+        </div>
+        {# 隐藏的表单，用户字段 #}
+        <input type="hidden" name="user"
+               autocomplete="off" class="layui-input"
+               value="{{ request.session.user_id }}">
+        {# 隐藏的表单，用户字段 #}
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">添加</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!--客户商机基本信息结束-->
+  </div>
+  <hr class="layui-bg-green">
+  <!--客户商机详情结束-->
+{% endblock %}
+
+{% block footer %}
+  <script>
+      //JavaScript代码区域
+      layui.use(['element', 'form', 'jquery'], function () {
+          var element = layui.element
+              , form = layui.form
+              , $ = layui.jquery;
+      });
+  </script>
+{% endblock %}
