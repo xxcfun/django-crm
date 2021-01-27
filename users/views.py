@@ -20,7 +20,8 @@ def index(request):
 
 def home(request):
     """系统首页"""
-
+    if not request.session.get('is_login',  None):
+        return redirect('login')
     # 初始化用户的统计数据
     user_id = request.session.get('user_id')
     user_name = request.session.get('user_name')
