@@ -15,28 +15,30 @@
 
   <!--按钮组-->
   <form class="layui-form" action="." method="get">
-{#    <div class="layui-row">#}
-{#      <div class="layui-col-md1">#}
-{#        <a class="layui-btn layui-btn-normal" href="{% url 'customer_add' %}">添加客户</a>#}
-{#      </div>#}
-{##}
-{#      <div class=" layui-col-md3">#}
-{#        <label class="layui-form-label">用户筛选</label>#}
-{#        <div class="layui-input-block">#}
-{#          <select name="city" lay-verify="required">#}
-{#            <option value=""></option>#}
-{#            <option value="0">北京</option>#}
-{#            <option value="1">上海</option>#}
-{#            <option value="2">广州</option>#}
-{#            <option value="3">深圳</option>#}
-{#            <option value="4">杭州</option>#}
-{#          </select>#}
-{#        </div>#}
-{#      </div>#}
-{#    </div>#}
     <div class="layui-form-customer" pane style="display: flex">
       <input type="search" name="name" placeholder="请输入客户名称进行搜索"
              autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-item" style="width: 50%; margin-top: 10px; display: flex;">
+      <div class="layui-input-inline">
+        <select name="rank">
+          <option value="">请选择客户级别</option>
+          <option value="1">重点客户</option>
+          <option value="2">一般客户</option>
+          <option value="3">普通客户</option>
+        </select>
+      </div>
+      <div class="layui-input-inline">
+        <select name="industry">
+          <option value="">请选择客户行业</option>
+          <option value="1">机台设备制造商</option>
+          <option value="2">生产制造型企业</option>
+          <option value="3">系统集成商</option>
+          <option value="4">分销商</option>
+          <option value="5">其它</option>
+        </select>
+      </div>
+      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">提交搜索</button>
     </div>
   </form>
 

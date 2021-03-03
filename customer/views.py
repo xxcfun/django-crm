@@ -27,6 +27,12 @@ class CustomerView(ListView):
         if 'name' in self.request.GET and self.request.GET['name']:
             name = self.request.GET['name']
             return Customer.objects.filter(name__icontains=name, user=user, is_valid=True)
+        if 'rank' in self.request.GET and self.request.GET['rank']:
+            rank = self.request.GET['rank']
+            return Customer.objects.filter(rank=rank, user=user, is_valid=True)
+        if 'industry' in self.request.GET and self.request.GET['industry']:
+            industry = self.request.GET['industry']
+            return Customer.objects.filter(industry=industry, user=user, is_valid=True)
         else:
             return Customer.objects.filter(is_valid=True, user=user)
 
