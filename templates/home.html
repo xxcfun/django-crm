@@ -37,10 +37,10 @@
             <thead>
             <tr>
               <th>姓名</th>
-              <th style="color: #393D49">今日客户</th>
-              <th style="color: #393D49">今日联系人</th>
-              <th style="color: #393D49">今日拜访记录</th>
-              <th style="color: #393D49">今日商机</th>
+              <th style="color: #393D49">昨天拜访记录</th>
+              <th style="color: #393D49">新增客户</th>
+              <th style="color: #393D49">新增联系人</th>
+              <th style="color: #393D49">新增商机</th>
               <th style="color: #1E9FFF">本月客户</th>
               <th style="color: #1E9FFF">本月联系人</th>
               <th style="color: #1E9FFF">本月拜访记录</th>
@@ -55,9 +55,9 @@
             {% for count in counts %}
             <tr>
               <td style="color: #01AAED">{{ count.name }}</td>
+              <td style="color: #393D49;">{{ count.day_record }}</td>
               <td style="color: #393D49;">{{ count.day_customer }}</td>
               <td style="color: #393D49;">{{ count.day_liaison }}</td>
-              <td style="color: #393D49;">{{ count.day_record }}</td>
               <td style="color: #393D49;">{{ count.day_business }}</td>
               <td style="color: #1E9FFF">{{ count.month_customer }}</td>
               <td style="color: #1E9FFF">{{ count.month_liaison }}</td>

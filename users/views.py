@@ -32,6 +32,13 @@ def home(request):
     month = datetime.datetime.now().month
     day = datetime.datetime.now().day
 
+    now = datetime.datetime.now().date()
+    yesterday = now - datetime.timedelta(days=1)
+    yesterday_year = yesterday.year
+    yesterday_month = yesterday.month
+    yesterday_day = yesterday.day
+    # print(yesterday_day,yesterday_year,yesterday_month)
+
     # 统计数量
     counts = Count.objects.all()
     for count in counts:
@@ -47,8 +54,8 @@ def home(request):
 
         day_customer = customer.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
         day_liaison = liaison.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
-        day_record = record.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
         day_business = business.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
+        day_record = record.filter(created_at__year=yesterday_year, created_at__month=yesterday_month, created_at__day=yesterday_day).count()  # 昨日统计拜访记录数
 
         all_customer = customer.filter().count()  # 全部
         all_liaison = liaison.filter().count()  # 全部

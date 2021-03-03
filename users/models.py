@@ -28,7 +28,7 @@ class Count(models.Model):
     name = models.CharField(verbose_name='姓名', max_length=64, null=True, blank=True)
     day_customer = models.IntegerField(verbose_name='今天新增客户数量', default=0)
     day_liaison = models.IntegerField(verbose_name='今天新增联系人数量', default=0)
-    day_record = models.IntegerField(verbose_name='今天新增拜访记录数量', default=0)
+    day_record = models.IntegerField(verbose_name='昨天拜访记录数量', default=0)
     day_business = models.IntegerField(verbose_name='今天新增商机数量', default=0)
 
     month_customer = models.IntegerField(verbose_name='本月新增客户数量', default=0)
