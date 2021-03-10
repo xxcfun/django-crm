@@ -26,20 +26,18 @@ class Count(models.Model):
     """用户数据统计"""
     user_id = models.IntegerField(verbose_name='用户id', primary_key=True)
     name = models.CharField(verbose_name='姓名', max_length=64, null=True, blank=True)
-    day_customer = models.IntegerField(verbose_name='今天新增客户数量', default=0)
-    day_liaison = models.IntegerField(verbose_name='今天新增联系人数量', default=0)
-    day_record = models.IntegerField(verbose_name='昨天拜访记录数量', default=0)
-    day_business = models.IntegerField(verbose_name='今天新增商机数量', default=0)
+    yesterday_record = models.IntegerField(verbose_name='昨日拜访记录', default=0)
+    yesterday_phone = models.IntegerField(verbose_name='昨日外呼数量', default=0)
+    new_customer = models.IntegerField(verbose_name='新增客户', default=0)
+    new_business = models.IntegerField(verbose_name='新增商机', default=0)
 
-    month_customer = models.IntegerField(verbose_name='本月新增客户数量', default=0)
-    month_liaison = models.IntegerField(verbose_name='本月新增联系人数量', default=0)
-    month_record = models.IntegerField(verbose_name='本月新增拜访记录数量', default=0)
-    month_business = models.IntegerField(verbose_name='本月新增商机数量', default=0)
+    week_record = models.IntegerField(verbose_name='本周拜访数量', default=0)
+    week_phone = models.IntegerField(verbose_name='本周外呼数量', default=0)
+    week_business = models.IntegerField(verbose_name='本周商机数量', default=0)
 
     all_customer = models.IntegerField(verbose_name='全部客户数量', default=0)
-    all_liaison = models.IntegerField(verbose_name='全部联系人数量', default=0)
-    all_record = models.IntegerField(verbose_name='全部拜访记录数量', default=0)
-    all_business = models.IntegerField(verbose_name='全部商机数量', default=0)
+    follow_business = models.IntegerField(verbose_name='跟进商机', default=0)
+    finish_business = models.IntegerField(verbose_name='完成商机', default=0)
 
     class Meta:
         db_table = 'count'

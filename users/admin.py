@@ -12,6 +12,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Count)
 class CountAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'name', 'day_customer', 'day_liaison', 'day_record', 'day_business',
-                    'month_customer', 'month_liaison', 'month_record', 'month_business',
-                    'all_customer', 'all_liaison', 'all_record', 'all_business',)
+    list_display = ('user_id', 'name',
+                    'yesterday_record', 'yesterday_phone', 'new_customer', 'new_business',
+                    'week_record', 'week_phone', 'week_business',
+                    'all_customer', 'follow_business', 'finish_business',)

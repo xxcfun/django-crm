@@ -101,8 +101,8 @@ LIAISON_JOB = (
 STATUS_XS = 1
 STATUS_XX = 2
 RECORD_STATUS = (
-    (STATUS_XS, '线上'),
-    (STATUS_XX, '线下'),
+    (STATUS_XS, '电联'),
+    (STATUS_XX, '拜访'),
 )
 
 

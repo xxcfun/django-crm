@@ -8,6 +8,7 @@ from liaison.models import Liaison
 from record.models import Record
 from users import forms
 from users.models import User, Count, Date
+from utils import constants
 
 
 def index(request):
@@ -32,50 +33,56 @@ def home(request):
     month = datetime.datetime.now().month
     day = datetime.datetime.now().day
 
-    now = datetime.datetime.now().date()
+    now = datetime.datetime.now()
     yesterday = now - datetime.timedelta(days=1)
     yesterday_year = yesterday.year
     yesterday_month = yesterday.month
     yesterday_day = yesterday.day
-    # print(yesterday_day,yesterday_year,yesterday_month)
+
+    day_num = now.isoweekday()
+    week_day = now - datetime.timedelta(days=day_num)
 
     # 统计数量
     counts = Count.objects.all()
     for count in counts:
         customer = Customer.objects.filter(user=count.user_id)
-        liaison = Liaison.objects.filter(user=count.user_id)
         record = Record.objects.filter(user=count.user_id)
         business = Business.objects.filter(user=count.user_id)
 
-        month_customer = customer.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
-        month_liaison = liaison.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
-        month_record = record.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
-        month_business = business.filter(created_at__year=year, created_at__month=month).count()  # 每月统计
+        # 昨日拜访
+        yesterday_record = record.filter(status=constants.STATUS_XX,
+                                         created_at__year=yesterday_year, created_at__month=yesterday_month,
+                                         created_at__day=yesterday_day).count()
+        # 昨日外呼
+        yesterday_phone = record.filter(status=constants.STATUS_XS,
+                                         created_at__year=yesterday_year, created_at__month=yesterday_month,
+                                         created_at__day=yesterday_day).count()
+        # 新增客户
+        new_customer = customer.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()
+        # 新增商机
+        new_business = business.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()
 
-        day_customer = customer.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
-        day_liaison = liaison.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
-        day_business = business.filter(created_at__year=year, created_at__month=month, created_at__day=day).count()  # 每天统计
-        day_record = record.filter(created_at__year=yesterday_year, created_at__month=yesterday_month, created_at__day=yesterday_day).count()  # 昨日统计拜访记录数
+        # 本周拜访
+        week_record = record.filter(created_at__range=(week_day, now), status=constants.STATUS_XX).count()
+        # 本周外呼
+        week_phone = record.filter(created_at__range=(week_day, now), status=constants.STATUS_XS).count()
+        # 本周商机
+        week_business = business.filter(created_at__range=(week_day, now)).count()
 
-        all_customer = customer.filter().count()  # 全部
-        all_liaison = liaison.filter().count()  # 全部
-        all_record = record.filter().count()  # 全部
-        all_business = business.filter().count()  # 全部
+        # 全部客户
+        all_customer = customer.filter().count()
+        # 跟进商机
+        follow_business = business.exclude(winning_rate=constants.WINNING_DONE).count()
+        # 完成商机
+        finish_business = business.filter(winning_rate=constants.WINNING_DONE).count()
 
-        Count.objects.filter(user_id=count.user_id).update(day_customer=day_customer, day_liaison=day_liaison,
-                                                     day_record=day_record, day_business=day_business,
-                                                     month_customer=month_customer, month_liaison=month_liaison,
-                                                     month_record=month_record, month_business=month_business,
-                                                     all_customer=all_customer, all_liaison=all_liaison,
-                                                     all_record=all_record, all_business=all_business)
-
-    # # 判断日期
-    # date = get_object_or_404(Date, pk=1)
-    # if date.day != day:
-    #     Count.objects.all().update(day_customer=0, day_liaison=0, day_record=0, day_business=0)
-    #     counts = Count.objects.all()
-    # else:
-    #     counts = Count.objects.all()
+        # 更新数据
+        Count.objects.filter(user_id=count.user_id).update(
+            yesterday_record=yesterday_record, yesterday_phone=yesterday_phone,
+            new_customer=new_customer, new_business=new_business,
+            week_record=week_record, week_phone=week_phone, week_business=week_business,
+            all_customer=all_customer, follow_business=follow_business, finish_business=finish_business
+        )
 
     # 渲染数据到home页面
     counts = Count.objects.exclude(user_id=1).exclude(user_id=9)
