@@ -15,4 +15,4 @@ class CountAdmin(admin.ModelAdmin):
     list_display = ('user_id', 'name',
                     'yesterday_record', 'yesterday_phone', 'new_customer', 'new_business',
                     'week_record', 'week_phone', 'week_business',
-                    'all_customer', 'follow_business', 'finish_business',)
+                    'month_customer', 'follow_business', 'finish_business',)

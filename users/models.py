@@ -35,7 +35,7 @@ class Count(models.Model):
     week_phone = models.IntegerField(verbose_name='本周外呼数量', default=0)
     week_business = models.IntegerField(verbose_name='本周商机数量', default=0)
 
-    all_customer = models.IntegerField(verbose_name='全部客户数量', default=0)
+    month_customer = models.IntegerField(verbose_name='本月客户数量', default=0)
     follow_business = models.IntegerField(verbose_name='跟进商机', default=0)
     finish_business = models.IntegerField(verbose_name='完成商机', default=0)
 

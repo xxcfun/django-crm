@@ -69,8 +69,10 @@ def home(request):
         # 本周商机
         week_business = business.filter(created_at__range=(week_day, now)).count()
 
-        # 全部客户
-        all_customer = customer.filter().count()
+        # # 控创
+        # # 全部客户
+        # all_customer = customer.filter().count()
+        month_customer = customer.filter(created_at__year=year, created_at__month=month).count()
         # 跟进商机
         follow_business = business.exclude(winning_rate=constants.WINNING_DONE).count()
         # 完成商机
@@ -81,7 +83,7 @@ def home(request):
             yesterday_record=yesterday_record, yesterday_phone=yesterday_phone,
             new_customer=new_customer, new_business=new_business,
             week_record=week_record, week_phone=week_phone, week_business=week_business,
-            all_customer=all_customer, follow_business=follow_business, finish_business=finish_business
+            month_customer=month_customer, follow_business=follow_business, finish_business=finish_business
         )
 
     # 渲染数据到home页面

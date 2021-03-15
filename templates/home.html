@@ -37,14 +37,23 @@
             <thead>
             <tr>
               <th>姓名</th>
-              <th style="color: #393D49">昨日拜访记录</th>
-              <th style="color: #393D49">昨日外呼数量</th>
+{#              比奥#}
+{#              <th style="color: #393D49">昨日拜访记录</th>#}
+{#              <th style="color: #393D49">昨日外呼数量</th>#}
+{#              控创#}
+              <th style="color: #393D49">昨日线下拜访</th>
+              <th style="color: #393D49">昨日线上拜访</th>
               <th style="color: #393D49">新增客户</th>
               <th style="color: #393D49">新增商机</th>
-              <th style="color: #1E9FFF">本周拜访数量</th>
-              <th style="color: #1E9FFF">本周外呼数量</th>
+              {#              比奥#}
+{#              <th style="color: #1E9FFF">本周拜访数量</th>#}
+{#              <th style="color: #1E9FFF">本周外呼数量</th>#}
+              <th style="color: #1E9FFF">本周线下拜访</th>
+              <th style="color: #1E9FFF">本周线上拜访</th>
               <th style="color: #1E9FFF">本周商机数量</th>
-              <th style="color: #2F4056">全部客户数量</th>
+{#              比奥#}
+{#              <th style="color: #2F4056">全部客户数量</th>#}
+              <th style="color: #2F4056">本月客户数量</th>
               <th style="color: #2F4056">跟进商机</th>
               <th style="color: #2F4056">完成商机</th>
             </tr>
@@ -60,7 +69,9 @@
               <td style="color: #1E9FFF">{{ count.week_record }}</td>
               <td style="color: #1E9FFF">{{ count.week_phone }}</td>
               <td style="color: #1E9FFF">{{ count.week_business }}</td>
-              <td style="color: #2F4056">{{ count.all_customer }}</td>
+{#              比奥#}
+{#              <td style="color: #2F4056">{{ count.all_customer }}</td>#}
+              <td style="color: #2F4056">{{ count.month_customer }}</td>
               <td style="color: #2F4056">{{ count.follow_business }}</td>
               <td style="color: #2F4056">{{ count.finish_business }}</td>
             </tr>
