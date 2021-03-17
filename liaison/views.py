@@ -91,6 +91,32 @@ def liaison_delete(request, pk):
     return redirect('liaison')
 
 
+def liaison_group(request):
+    """团队联系人"""
+    up_name = request.session.get('user_id')
+    users = User.objects.filter(up_name=up_name)
+    if 'name' in request.GET and request.GET['name']:
+        name = request.GET['name']
+        liaisons = Liaison.objects.filter(name__icontains=name, user__up_name=up_name).exclude(is_valid=False)
+    elif 'user_id' in request.GET and request.GET['user_id']:
+        user_id = request.GET['user_id']
+        liaisons = Liaison.objects.filter(user=user_id, user__up_name=up_name).exclude(is_valid=False)
+    else:
+        liaisons = Liaison.objects.filter(user__up_name=up_name).exclude(is_valid=False)
+    paginator = Paginator(liaisons, 10)
+    page = request.GET.get('page')
+    try:
+        liaisons = paginator.page(page)
+    except PageNotAnInteger:
+        liaisons = paginator.page(1)
+    except EmptyPage:
+        liaisons = paginator.page(paginator.num_pages)
+    return render(request, 'liaison_all.html', {
+        'liaisons': liaisons,
+        'users': users
+    })
+
+
 def liaison_all(request):
     """所有联系人"""
     users = User.objects.all().exclude(role=3).exclude(role=5)

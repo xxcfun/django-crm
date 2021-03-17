@@ -7,6 +7,7 @@ from utils import constants
 class User(models.Model):
     """用户表"""
     name = models.CharField(verbose_name='用户名', max_length=128, unique=True)
+    up_name = models.ForeignKey('self', verbose_name='上级主管', blank=True, null=True, on_delete=models.CASCADE)
     password = models.CharField(verbose_name='密码', max_length=256)
     is_valid = models.BooleanField(verbose_name='是否有效', default=True)
     professional = models.CharField(verbose_name='职称', max_length=64, null=True, blank=True)

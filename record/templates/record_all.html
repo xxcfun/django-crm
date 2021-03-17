@@ -32,7 +32,9 @@
     </div>
   </form>
 
+  {% if request.session.user_role == 4 or request.session.user_role == 5 %}
   <a class="export-xls layui-btn layui-btn-warm" href="{% url 'export_record' %}">将所有拜访记录信息导出到Excel</a>
+  {% endif %}
 
   <table class="layui-table">
     <colgroup>

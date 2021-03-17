@@ -21,6 +21,9 @@ urlpatterns = [
     # 客户发票地址
     path('address/invoice/<int:pk>', views.address_invoice, name='address_invoice'),
 
+    # 团队所有客户
+    path('group/', views.customer_group, name='customer_group'),
+
     # 所有客户列表
     path('all/', views.customer_all, name='customer_all'),
     # 客户详情

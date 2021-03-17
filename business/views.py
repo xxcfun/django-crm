@@ -93,6 +93,32 @@ def business_delete(request, pk):
     return redirect('business')
 
 
+def business_group(request):
+    """团队商机"""
+    up_name = request.session.get('user_id')
+    users = User.objects.filter(up_name=up_name)
+    if 'name' in request.GET and request.GET['name']:
+        name = request.GET['name']
+        businesses = Business.objects.filter(name__icontains=name, user__up_name=up_name).exclude(is_valid=False)
+    elif 'user_id' in request.GET and request.GET['user_id']:
+        user_id = request.GET['user_id']
+        businesses = Business.objects.filter(user=user_id, user__up_name=up_name).exclude(is_valid=False)
+    else:
+        businesses = Business.objects.filter(user__up_name=up_name).exclude(is_valid=False)
+    paginator = Paginator(businesses, 10)
+    page = request.GET.get('page')
+    try:
+        businesses = paginator.page(page)
+    except PageNotAnInteger:
+        businesses = paginator.page(1)
+    except EmptyPage:
+        businesses = paginator.page(paginator.num_pages)
+    return render(request, 'business_all.html', {
+        'businesses': businesses,
+        'users': users
+    })
+
+
 def business_all(request):
     # 所有商机
     users = User.objects.all().exclude(role=3).exclude(role=5)

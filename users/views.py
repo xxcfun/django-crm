@@ -87,7 +87,7 @@ def home(request):
         )
 
     # 渲染数据到home页面
-    counts = Count.objects.exclude(user_id=1).exclude(user_id=9)
+    counts = Count.objects.exclude(user_id=1)
     return render(request, 'home.html', {
         'counts': counts
     })

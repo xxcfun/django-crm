@@ -15,6 +15,9 @@ urlpatterns = [
     # 删除商机
     path('delete/<int:pk>', views.business_delete, name='business_delete'),
 
+    # 团队所有商机
+    path('group/', views.business_group, name='business_group'),
+
     # 所有商机列表
     path('all/', views.business_all, name='business_all'),
     # 客户详情

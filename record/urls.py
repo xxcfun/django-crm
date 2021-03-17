@@ -15,6 +15,9 @@ urlpatterns = [
     # 删除拜访记录
     path('delete/<int:pk>', views.record_delete, name='record_delete'),
 
+    # 团队拜访记录
+    path('group/', views.record_group, name='record_group'),
+
     # 所有拜访记录列表
     path('all/', views.record_all, name='record_all'),
     # 客户详情

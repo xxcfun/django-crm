@@ -48,6 +48,7 @@
             <dd><a href="{% url 'home' %}">首页展板</a></dd>
           </dl>
         </li>
+        {# 下面写个人权限的功能 #}
         <li class="layui-nav-item layui-nav-itemed">
           <a href="javascript:;">客户管理模块</a>
           <dl class="layui-nav-child">
@@ -59,13 +60,25 @@
         </li>
         {# 下面写经理权限的功能 #}
         {% if request.session.user_role == 4 or request.session.user_role == 5 %}
-          <li class="layui-nav-item layui-nav-itemed">
+        <li class="layui-nav-item layui-nav-itemed">
           <a href="javascript:;">管理列表</a>
           <dl class="layui-nav-child">
             <dd><a href="{% url 'customer_all' %}">所有客户</a></dd>
             <dd><a href="{% url 'liaison_all' %}">所有联系人</a></dd>
             <dd><a href="{% url 'record_all' %}">所有拜访记录</a></dd>
             <dd><a href="{% url 'business_all' %}">所有商机</a></dd>
+          </dl>
+        </li>
+        {% endif %}
+        {# 下面写主管权限的功能 #}
+        {% if request.session.user_role == 2 %}
+        <li class="layui-nav-item layui-nav-itemed">
+          <a href="javascript:;">管理列表</a>
+          <dl class="layui-nav-child">
+            <dd><a href="{% url 'customer_group' %}">团队所有客户</a></dd>
+            <dd><a href="{% url 'liaison_group' %}">团队所有联系人</a></dd>
+            <dd><a href="{% url 'record_group' %}">团队所有拜访记录</a></dd>
+            <dd><a href="{% url 'business_group' %}">团队所有商机</a></dd>
           </dl>
         </li>
         {% endif %}

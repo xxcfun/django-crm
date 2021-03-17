@@ -143,6 +143,32 @@ def address_invoice(request, pk):
     return redirect('customer_detail', pk)
 
 
+def customer_group(request):
+    """团队客户，可筛选"""
+    up_name = request.session.get('user_id')
+    users = User.objects.filter(up_name=up_name)
+    if 'name' in request.GET and request.GET['name']:
+        name = request.GET['name']
+        customers = Customer.objects.filter(name__icontains=name, user__up_name=up_name).exclude(is_valid=False)
+    elif 'user_id' in request.GET and request.GET['user_id']:
+        user_id = request.GET['user_id']
+        customers = Customer.objects.filter(user=user_id, user__up_name=up_name).exclude(is_valid=False)
+    else:
+        customers = Customer.objects.filter(user__up_name=up_name).exclude(is_valid=False)
+    paginator = Paginator(customers, 10)
+    page = request.GET.get('page')
+    try:
+        customers = paginator.page(page)
+    except PageNotAnInteger:
+        customers = paginator.page(1)
+    except EmptyPage:
+        customers = paginator.page(paginator.num_pages)
+    return render(request, 'customer_all.html', {
+        'customers': customers,
+        'users': users
+    })
+
+
 def customer_all(request):
     """所有客户，可筛选"""
     users = User.objects.all().exclude(role=3).exclude(role=5)

@@ -93,6 +93,32 @@ def record_delete(request, pk):
     return redirect('record')
 
 
+def record_group(request):
+    """团队拜访记录"""
+    up_name = request.session.get('user_id')
+    users = User.objects.filter(up_name=up_name)
+    if 'theme' in request.GET and request.GET['theme']:
+        theme = request.GET['theme']
+        records = Record.objects.filter(theme__icontains=theme, user__up_name=up_name).exclude(is_valid=False)
+    elif 'user_id' in request.GET and request.GET['user_id']:
+        user_id = request.GET['user_id']
+        records = Record.objects.filter(user=user_id, user__up_name=up_name).exclude(is_valid=False)
+    else:
+        records = Record.objects.filter(user__up_name=up_name).exclude(is_valid=False)
+    paginator = Paginator(records, 10)
+    page = request.GET.get('page')
+    try:
+        records = paginator.page(page)
+    except PageNotAnInteger:
+        records = paginator.page(1)
+    except EmptyPage:
+        records = paginator.page(paginator.num_pages)
+    return render(request, 'record_all.html', {
+        'records': records,
+        'users': users
+    })
+
+
 def record_all(request):
     """所有拜访记录"""
     users = User.objects.all().exclude(role=3).exclude(role=5)

@@ -15,6 +15,9 @@ urlpatterns = [
     # 删除联系人
     path('delete/<int:pk>', views.liaison_delete, name='liaison_delete'),
 
+    # 团队联系人
+    path('group/', views.liaison_group, name='liaison_group'),
+
     # 所有联系人列表
     path('all/', views.liaison_all, name='liaison_all'),
     # 客户详情
