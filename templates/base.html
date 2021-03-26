@@ -46,6 +46,13 @@
           <a href="javascript:;">首页</a>
           <dl class="layui-nav-child">
             <dd><a href="{% url 'home' %}">首页展板</a></dd>
+            {% if request.session.user_role == 4 or request.session.user_role == 5 %}
+              <dd><a href="{% url 'week_all' %}">一周工作汇总</a></dd>
+{#            {% elif request.session.user_role == 2 %}#}
+{#              <dd><a href="{% url 'week_group' %}">周数据汇总</a></dd>#}
+            {% else %}
+              <dd><a href="{% url 'week' %}">周数据汇总</a></dd>
+            {% endif %}
           </dl>
         </li>
         {# 下面写个人权限的功能 #}

@@ -144,3 +144,96 @@ def logout(request):
         return redirect('login')
     request.session.flush()
     return redirect('login')
+
+
+def week(request):
+    """周数据汇总"""
+    if not request.session.get('is_login',  None):
+        return redirect('login')
+    # 拿到人
+    user_id = request.session.get('user_id')
+    # 拿到时间
+    now = datetime.datetime.now()
+    day_num = now.isoweekday()
+    week_day = now - datetime.timedelta(days=day_num)
+    # 拿数据
+    customers = Customer.objects.filter(user_id=user_id, created_at__range=(week_day, now))
+    liaisons = Liaison.objects.filter(user_id=user_id, created_at__range=(week_day, now))
+    records = Record.objects.filter(user_id=user_id, created_at__range=(week_day, now))
+    businesses = Business.objects.filter(user_id=user_id, created_at__range=(week_day, now))
+    print(customers, liaisons, records, businesses)
+    return render(request, 'week.html', {
+        'customers': customers,
+        'liaisons': liaisons,
+        'records': records,
+        'businesses': businesses
+    })
+
+
+# def week_group(request):
+#     """周数据汇总(团队)"""
+#     if not request.session.get('is_login',  None):
+#         return redirect('login')
+#     # 拿到人
+#     user_id = request.session.get('user_id')
+#     users = User.objects.filter(up_name=user_id)
+#
+#     # 拿到时间
+#     now = datetime.datetime.now()
+#     day_num = now.isoweekday()
+#     week_day = now - datetime.timedelta(days=day_num)
+#     # 拿数据
+#     # if 'name' in request.GET and request.GET['name']:
+#     #     name = request.GET['name']
+#     #     customers = Customer.objects.filter(name__icontains=name, user__up_name=up_name).exclude(is_valid=False)
+#     # elif 'user_id' in request.GET and request.GET['user_id']:
+#     #     user_id = request.GET['user_id']
+#     #     customers = Customer.objects.filter(user=user_id, user__up_name=up_name).exclude(is_valid=False)
+#     # else:
+#     #     customers = Customer.objects.filter(user__up_name=up_name).exclude(is_valid=False)
+#
+#     customers = Customer.objects.filter(user_id=user_id, created_at__range=(week_day, now))
+#     liaisons = Liaison.objects.filter(user_id=user_id, created_at__range=(week_day, now))
+#     records = Record.objects.filter(user_id=user_id, created_at__range=(week_day, now))
+#     businesses = Business.objects.filter(user_id=user_id, created_at__range=(week_day, now))
+#
+#     return render(request, 'week_group(暂时砍掉).html', {
+#         'customers': customers,
+#         'liaisons': liaisons,
+#         'records': records,
+#         'businesses': businesses,
+#         'users': users
+#     })
+
+
+def week_all(request):
+    """周数据汇总(全部)"""
+    if not request.session.get('is_login',  None):
+        return redirect('login')
+    # 拿到人
+    user_id = request.session.get('user_id')
+    users = User.objects.all().exclude(role=3).exclude(role=5).exclude(pk=1)
+    # 拿到时间
+    now = datetime.datetime.now()
+    day_num = now.isoweekday()
+    week_day = now - datetime.timedelta(days=day_num)
+    # 拿数据
+    if 'user_id' in request.GET and request.GET['user_id']:
+        user_id = request.GET['user_id']
+        customers = Customer.objects.filter(user_id=user_id, created_at__range=(week_day, now)).exclude(is_valid=False)
+        liaisons = Liaison.objects.filter(user_id=user_id, created_at__range=(week_day, now)).exclude(is_valid=False)
+        records = Record.objects.filter(user_id=user_id, created_at__range=(week_day, now)).exclude(is_valid=False)
+        businesses = Business.objects.filter(user_id=user_id, created_at__range=(week_day, now)).exclude(is_valid=False)
+    else:
+        customers = Customer.objects.filter(user_id=user_id, created_at__range=(week_day, now)).exclude(is_valid=False)
+        liaisons = Liaison.objects.filter(user_id=user_id, created_at__range=(week_day, now)).exclude(is_valid=False)
+        records = Record.objects.filter(user_id=user_id, created_at__range=(week_day, now)).exclude(is_valid=False)
+        businesses = Business.objects.filter(user_id=user_id, created_at__range=(week_day, now)).exclude(is_valid=False)
+    print(customers, liaisons, records, businesses)
+    return render(request, 'week_all.html', {
+        'customers': customers,
+        'liaisons': liaisons,
+        'records': records,
+        'businesses': businesses,
+        'users': users
+    })

@@ -25,6 +25,10 @@ urlpatterns = [
     path('', views.index, name='index'),
     # home首页
     path('home/', views.home, name='home'),
+    # week周数据汇总
+    path('week/', views.week, name='week'),
+    # path('week/group', views.week_group, name='week_group'),
+    path('week/all', views.week_all, name='week_all'),
     # 用户模块
     path('user/', include('users.urls')),
     # 客户信息模块

@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>周数据汇总</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote class="layui-elem-quote">
+    <a href="javascript:;">首页</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">周数据汇总</a>
+  </blockquote>
+
+  <hr class="layui-bg-green">
+
+  <form class="layui-form" action="{% url 'week_group' %}" method="get">
+    <div class="layui-form-item" style="width: 50%; margin-top: 10px;">
+      <div class="layui-input-inline">
+        <select name="user_id">
+          <option value=""></option>
+          {% for user in users %}
+            <option value="{{ user.pk }}">{{ user.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">提交搜索</button>
+    </div>
+  </form>
+
+  <div class="layui-card">
+    <div class="layui-card-body">
+
+      <fieldset class="layui-elem-field layui-field-title">
+        <legend>一周客户总览</legend>
+        <div class="layui-field-box">
+          <table class="layui-table">
+            <colgroup>
+              <col width="5%">
+              <col>
+              <col>
+              <col>
+              <col>
+              <col width="14%">
+              <col width="10%">
+            </colgroup>
+            <thead>
+            <tr>
+              <th></th>
+              <th>客户名称</th>
+              <th>客户级别</th>
+              <th>客户规模</th>
+              <th>客户行业</th>
+              <th>创建时间</th>
+              <th>创建人</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--数据-->
+            {% for customer in customers %}
+              <tr>
+                <td style="text-align: center">
+                  {{ forloop.counter }}
+                </td>
+                <td>
+                  {{ customer.name }}
+                </td>
+                <td>
+                  {{ customer.get_rank_display }}
+                </td>
+                <td>
+                  {{ customer.get_scale_display }}
+                </td>
+                <td>
+                  {{ customer.get_industry_display|default_if_none:'' }}
+                </td>
+                <td>
+                  {{ customer.created_at|date }}
+                </td>
+                <td>
+                  {{ customer.user }}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </fieldset>
+
+      <fieldset class="layui-elem-field layui-field-title">
+        <legend>一周联系人总览</legend>
+        <div class="layui-field-box">
+          <table class="layui-table">
+            <colgroup>
+              <col width="5%">
+              <col>
+              <col>
+              <col>
+              <col>
+              <col>
+              <col width="14%">
+              <col width="10%">
+            </colgroup>
+            <thead>
+            <tr>
+              <th></th>
+              <th>联系人姓名</th>
+              <th>客户名称</th>
+              <th>联系方式</th>
+              <th>职位</th>
+              <th>是否在职</th>
+              <th>创建时间</th>
+              <th>创建人</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--数据-->
+            {% for liaison in liaisons %}
+              <tr>
+                <td style="text-align: center">
+                  {{ forloop.counter }}
+                </td>
+                <td>
+                  {{ liaison.name }}
+                </td>
+                <td>
+                  {{ liaison.customer }}
+                </td>
+                <td>
+                  {{ liaison.phone }}
+                </td>
+                <td>
+                  {{ liaison.get_job_display }}
+                </td>
+                <td>
+                  {{ liaison.get_injob_display }}
+                </td>
+                <td>
+                  {{ liaison.created_at }}
+                </td>
+                <td>
+                  {{ liaison.user }}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </fieldset>
+
+      <fieldset class="layui-elem-field layui-field-title">
+        <legend>一周拜访记录总览</legend>
+        <div class="layui-field-box">
+          <table class="layui-table">
+            <colgroup>
+              <col width="">
+              <col width="">
+              <col width="">
+              <col width="">
+              <col width="">
+              <col width="">
+              <col width="14%">
+              <col width="10%">
+            </colgroup>
+            <thead>
+            <tr>
+              <th></th>
+              <th>拜访主题</th>
+              <th>客户名称</th>
+              <th>拜访方式</th>
+              <th>主要事宜</th>
+              <th>后续工作安排</th>
+              <th>创建时间</th>
+              <th>创建人</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--数据-->
+            {% for record in records %}
+              <tr>
+                <td style="text-align: center">
+                  {{ forloop.counter }}
+                </td>
+                <td>
+                  {{ record.theme }}
+                </td>
+                <td>
+                  {{ record.customer }}
+                </td>
+                <td>
+                  {{ record.get_status_display }}
+                </td>
+                <td>
+                  {{ record.main|slice:":15" }}
+                </td>
+                <td>
+                  {{ record.next|slice:":15" }}
+                </td>
+                <td>
+                  {{ record.created_at }}
+                </td>
+                <td>
+                  {{ record.user }}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </fieldset>
+
+      <fieldset class="layui-elem-field layui-field-title">
+        <legend>一周商机总览</legend>
+        <div class="layui-field-box">
+          <table class="layui-table">
+            <colgroup>
+              <col width="5%">
+              <col>
+              <col>
+              <col width="6%">
+              <col>
+              <col width="14%">
+              <col width="10%">
+            </colgroup>
+            <thead>
+            <tr>
+              <th></th>
+              <th>商机名称</th>
+              <th>客户名称</th>
+              <th>赢单率</th>
+              <th>预估金额</th>
+              <th>创建时间</th>
+              <th>创建人</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--数据-->
+            {% for business in businesses %}
+              <tr>
+                <td style="text-align: center">
+                  {{ forloop.counter }}
+                </td>
+                <td>
+                  {{ business.name }}
+                </td>
+                <td>
+                  {{ business.customer }}
+                </td>
+                <td>
+                  {{ business.get_winning_rate_display }}
+                </td>
+                <td>
+                  {{ business.money|default_if_none:'无信息' }}
+                </td>
+                <td>
+                  {{ business.created_at }}
+                </td>
+                <td>
+                  {{ business.user }}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </fieldset>
+
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <script>
+      layui.use(['element', 'layer', 'form'], function () {
+          var element = layui.element;
+          var layer = layui.layer;
+          var form = layui.form;
+
+          //监听折叠
+          /*element.on('collapse(test)', function (data) {
+              layer.msg('展开状态：' + data.show);
+          });*/
+      });
+  </script>
+{% endblock %}
