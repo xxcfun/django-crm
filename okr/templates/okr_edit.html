@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>修改OKR个人目标--{{ form.object.value }}</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote class="layui-elem-quote">
+    <a href="{% url 'okr' %}">OKR</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">修改OKR</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">{{ form.object.value }}</a>
+  </blockquote>
+
+  <hr class="layui-bg-green">
+
+  <!--客户商机详情-->
+  <div class="layui-row">
+    <!--客户基本信息-->
+    <form class="layui-form" action="{% url 'okr_edit' pk %}" method="post">
+      {% csrf_token %}
+      <div class="layui-row">
+        <blockquote class="layui-elem-quote layui-quote-nm">OKR详情</blockquote>
+        <div class="layui-form-item layui-col-md6">
+          <label class="layui-form-label"><span style="color: red">* </span>目标</label>
+          <div class="layui-input-block">
+            <input type="text" name="object" required lay-verify="required"
+                   autocomplete="off" class="layui-input" value="{{ form.object.value|default_if_none:'' }}">
+            {{ form.object.errors }}
+          </div>
+        </div>
+
+        <div class="layui-row">
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">关键成果(1)</label>
+              <div class="layui-input-block">
+                <input type="text" name="key1" autocomplete="off" class="layui-input" value="{{ form.key1.value|default_if_none:'' }}">
+                {{ form.key1.errors }}
+              </div>
+            </div>
+          </div>
+          <div class="layui-col-md3">
+            <div class="layui-form-item">
+              <label class="layui-form-label">完成情况(1)</label>
+              <div class="layui-input-block">
+                {{ form.key1_true }}
+                {{ form.key1_true.errors }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-row">
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">关键成果(2)</label>
+              <div class="layui-input-block">
+                <input type="text" name="key2" autocomplete="off" class="layui-input" value="{{ form.key2.value|default_if_none:'' }}">
+                {{ form.key2.errors }}
+              </div>
+            </div>
+          </div>
+          <div class="layui-col-md3">
+            <div class="layui-form-item">
+              <label class="layui-form-label">完成情况(2)</label>
+              <div class="layui-input-block">
+                {{ form.key2_true }}
+                {{ form.key2_true.errors }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-row">
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">关键成果(3)</label>
+              <div class="layui-input-block">
+                <input type="text" name="key3" autocomplete="off" class="layui-input" value="{{ form.key3.value|default_if_none:'' }}">
+                {{ form.key3.errors }}
+              </div>
+            </div>
+          </div>
+
+          <div class="layui-col-md3">
+            <div class="layui-form-item">
+              <label class="layui-form-label">完成情况(3)</label>
+              <div class="layui-input-block">
+                {{ form.key3_true }}
+                {{ form.key3_true.errors }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-form-item layui-col-md6">
+          <label class="layui-form-label">衡量标准</label>
+          <div class="layui-input-block">
+            <input type="text" name="results" autocomplete="off" class="layui-input" value="{{ form.results.value|default_if_none:'' }}">
+            {{ form.results.errors }}
+          </div>
+        </div>
+        <div class="layui-form-item layui-col-md6">
+          <label class="layui-form-label">实际达成</label>
+          <div class="layui-input-block">
+            <input type="text" name="finish" autocomplete="off" class="layui-input" value="{{ form.finish.value|default_if_none:'' }}">
+            {{ form.finish.errors }}
+          </div>
+        </div>
+      </div>
+      {# 隐藏的表单，用户字段 #}
+      <input type="hidden" name="user"
+             autocomplete="off" class="layui-input"
+             value="{{ request.session.user_id }}">
+      {# 隐藏的表单，用户字段 #}
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="formDemo">修改</button>
+        </div>
+      </div>
+    </form>
+    <!--客户基本信息结束-->
+  </div>
+  <hr>
+  <!--客户商机详情结束-->
+{% endblock %}
+
+{% block footer %}
+  <script>
+      //JavaScript代码区域
+      layui.use(['element', 'form', 'jquery'], function () {
+          var element = layui.element
+              , form = layui.form
+              , $ = layui.jquery;
+      });
+  </script>
+{% endblock %}

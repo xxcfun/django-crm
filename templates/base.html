@@ -23,6 +23,7 @@
       <li class="layui-nav-item"><a href="{% url 'liaison_add' %}">添加联系人</a></li>
       <li class="layui-nav-item"><a href="{% url 'record_add' %}">添加拜访记录</a></li>
       <li class="layui-nav-item"><a href="{% url 'business_add' %}">添加商机</a></li>
+      <li class="layui-nav-item"><a href="{% url 'okr_add' %}">添加OKR目标</a></li>
     </ul>
 
     <ul class="layui-nav layui-layout-right" lay-filter="">
@@ -53,6 +54,7 @@
             {% else %}
               <dd><a href="{% url 'week' %}">周数据汇总</a></dd>
             {% endif %}
+            <dd><a href="{% url 'okr' %}">OKR</a></dd>
           </dl>
         </li>
         {# 下面写个人权限的功能 #}

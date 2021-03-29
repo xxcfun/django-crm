@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>OKR</title>
+{% endblock %}
+
+{% block container %}
+  <blockquote class="layui-elem-quote">
+    <a href="javascript:;">首页</a>
+    &ensp;/&ensp;
+    <a href="javascript:;">OKR</a>
+  </blockquote>
+
+  <hr class="layui-bg-green">
+
+  <div class="layui-card">
+    <div class="layui-card-body">
+
+      <table class="layui-table">
+        <colgroup>
+          <col width="16%">
+          <col width="20%">
+          <col width="16%">
+          <col width="16%">
+          <col width="16%">
+          <col width="16%">
+        </colgroup>
+        <thead>
+        <tr>
+          <th>目标</th>
+          <th>关键成果</th>
+          <th>完成情况</th>
+          <th>衡量指标</th>
+          <th>实际达成</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--数据-->
+        {% for okr in okrs %}
+          <tr>
+            <td rowspan="3">
+              <a href="{% url 'okr_edit' okr.pk %}" style="color: #1E9FFF">
+                {{ okr.object }}
+              </a>
+            </td>
+            <td>
+              {{ okr.key1|default_if_none:'' }}
+            </td>
+            <td>
+              {{ okr.get_key1_true_display|default_if_none:'' }}
+            </td>
+            <td rowspan="3">
+              {{ okr.results|default_if_none:'' }}
+            </td>
+            <td rowspan="3">
+              {{ okr.finish|default_if_none:'' }}
+            </td>
+            <td rowspan="3">
+              <a class="layui-btn layui-btn-sm layui-btn-normal"
+                 onclick="return finishOkr();" href="{% url 'okr_finish' okr.pk %}">完成该目标</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {{ okr.key2|default_if_none:'' }}
+            </td>
+            <td>
+              {{ okr.get_key2_true_display|default_if_none:'' }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {{ okr.key3|default_if_none:'' }}
+            </td>
+            <td>
+              {{ okr.get_key3_true_display|default_if_none:'' }}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <script>
+      layui.use(['element', 'layer'], function () {
+          var element = layui.element;
+          var layer = layui.layer;
+
+          //监听折叠
+          /*element.on('collapse(test)', function (data) {
+              layer.msg('展开状态：' + data.show);
+          });*/
+      });
+  </script>
+  <script type="text/javascript" language="JavaScript">
+      function finishOkr() {
+          if (confirm("确认后移除该目标记录？")) {
+              return true;
+          } else {
+              return false;
+          }
+      }
+  </script>
+{% endblock %}

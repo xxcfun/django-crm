@@ -39,4 +39,6 @@ urlpatterns = [
     path('record/', include('record.urls')),
     # 商机模块
     path('business/', include('business.urls')),
+    # okr模块
+    path('okr/', include('okr.urls'))
 ]

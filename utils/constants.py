@@ -119,3 +119,12 @@ BUSINESS_WINNING = (
     (WINNING_BASHI, '80%'),
     (WINNING_DONE, '100%')
 )
+
+
+"""okr关键成果是否完成"""
+FINISH_TRUE = 1
+FINISH_FALSE = 0
+OKR_FINISH = (
+    (FINISH_TRUE, '是'),
+    (FINISH_FALSE, '否')
+)

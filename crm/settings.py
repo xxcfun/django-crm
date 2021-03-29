@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'liaison',      # 联系人信息模块
     'record',       # 拜访记录模块
     'business',     # 商机模块
+    'okr'           # okr模块
 ]
 
 MIDDLEWARE = [
